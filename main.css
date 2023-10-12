@@ -27,7 +27,7 @@ header h1 {
     gap: 10px;
 }
 
-#inicio {
+body {
     background-image: url(images/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -46,7 +46,7 @@ main {
 }
 
 .slogan {
-    margin: 120px 0 130px 50px;
+    margin: 50px 0 130px 50px;
     backdrop-filter: blur(2px);
     border-radius: 30px;
 }
@@ -100,8 +100,31 @@ h2 {
     background-repeat: no-repeat;
 }
 
-#meio {
+.login {
     height: 100px;
     width: 100%;
-    background-color: rgb(255, 86, 56);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    border-top: dotted 1px #fff;
+    gap: 100px;
 }
+
+a.button1{
+    display:inline-block;
+    padding:10px 10px;
+    border:2px solid #FFFFFF;
+    border-radius: 5px;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    color:#FFFFFF;
+    text-align:center;
+    transition: all 0.2s;
+}
+
+a.button1:hover{
+    color:#000000;
+    background-color:#FFFFFF;
+}
+
