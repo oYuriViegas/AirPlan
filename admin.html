@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>AIR plan | business</title>
+    <link rel="stylesheet" href="global.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>AIR plan</h1>
+        <h1>business</h1>
+        <button>Sair</button>
+      </div>
+    </header>
+    <h2>Gerenciar cadastros:</h2>
+    <button class="mostrarBtn" data-target="conteudoEscondido1">
+      Adicionar dados
+    </button>
+    <button class="mostrarBtn" data-target="conteudoEscondido2">
+      Editar dados
+    </button>
+    <button class="mostrarBtn" data-target="conteudoEscondido3">
+      Excluir dados
+    </button>
+    <div id="conteudoEscondido1" class="conteudoEscondido">
+      <button class="mostrarBtn" data-target="formAddAeronaves">
+        Aeronaves
+      </button>
+      <div id="formAddAeronaves" class="conteudoEscondido">
+        <form action="#" method="post">
+          <div>
+            <label for="modelo">Modelo:</label>
+            <br />
+            <input type="text" id="modelo" name="modelo" required />
+          </div>
+          <br />
+          <div>
+            <label for="numId">Número de identificação:</label>
+            <br />
+            <input type="text" id="numId" name="numId" required />
+          </div>
+          <br />
+          <div>
+            <label>Fabricante:</label>
+            <br />
+            <input
+              type="radio"
+              name="fabricante"
+              id="airbus"
+              value="airbus"
+              required
+            />
+            <label for="airbus">Airbus</label>
+
+            <input
+              type="radio"
+              name="fabricante"
+              id="Boeing"
+              value="Boeing"
+              required
+            />
+            <label for="Boeing">Boeing</label>
+
+            <input
+              type="radio"
+              name="fabricante"
+              id="Embraer"
+              value="Embraer"
+              required
+            />
+            <label for="Embraer">Embraer</label>
+          </div>
+          <br />
+          <div>
+            <label for="anoFabrica">Ano de fabricação:</label>
+            <br />
+            <input type="number" id="anoFabrica" name="anoFabrica" required />
+          </div>
+          <br />
+          <input type="submit" value="Enviar" />
+        </form>
+      </div>
+      <button class="mostrarBtn" data-target="formAddAssentos">Assentos</button>
+      <div id="formAddAssentos" class="conteudoEscondido">
+        <form action="#" method="post">
+          <input type="submit" value="Enviar" />
+        </form>
+      </div>
+      <button class="mostrarBtn" data-target="formAddAeroportos">
+        Aeroportos
+      </button>
+      <div id="formAddAeroportos" class="conteudoEscondido">
+        <form action="#" method="post">
+          <div>
+            <label for="nome">Nome:</label>
+            <br />
+            <input type="text" id="nome" name="nome" required />
+          </div>
+          <br />
+          <div>
+            <label for="cidade">Cidade:</label>
+            <br />
+            <input type="text" id="cidade" name="cidade" required />
+          </div>
+          <br />
+          <input type="submit" value="Enviar" />
+        </form>
+      </div>
+      <button class="mostrarBtn" data-target="formAddVoos">Voos</button>
+      <div id="formAddVoos" class="conteudoEscondido">
+        <form action="#" method="post">
+          <div>
+            <label for="trecho">Trecho:</label>
+            <br />
+            <input type="text" id="trecho" name="trecho" required />
+          </div>
+          <br />
+          <div>
+            <label for="data">Data:</label>
+            <br />
+            <input type="date" id="data" name="data" required />
+          </div>
+          <br />
+          <div>
+            <label for="horaPartida">Hora de partida:</label>
+            <br />
+            <input type="time" id="horaPartida" name="horaPartida" required />
+          </div>
+          <br />
+          <div>
+            <label for="horaChegada">Hora de chegada:</label>
+            <br />
+            <input type="time" id="horaChegada" name="horaChegada" required />
+          </div>
+          <br />
+          <div>
+            <label for="aeroportoSaida">Aeroporto de partida:</label
+            ><br /><select name="aeroportoSaida" id="aeroportoSaida">
+              <option value="teste1">TESTE1</option>
+              <option value="teste2">TESTE2</option>
+              <option value="teste3">TESTE3</option>
+            </select>
+          </div>
+          <br />
+          <div>
+            <label for="aeroportoChegada">Aeroporto de chegada:</label
+            ><br /><select name="aeroportoChegada" id="aeroportoChegada">
+              <option value="teste4">TESTE4</option>
+              <option value="teste5">TESTE5</option>
+              <option value="teste6">TESTE6</option>
+            </select>
+          </div>
+          <br />
+          <input type="submit" value="Enviar" />
+        </form>
+      </div>
+    </div>
+
+    <div id="conteudoEscondido2" class="conteudoEscondido">
+      <button class="mostrarBtn" data-target="formEditVoos">
+        Voos agendados
+      </button>
+      <button class="mostrarBtn" data-target="formEditAeronaves">
+        Aeronaves
+      </button>
+      <button class="mostrarBtn" data-target="formEditAssentos">
+        Assentos
+      </button>
+      <button class="mostrarBtn" data-target="formEditAeroportos">
+        Aeroportos
+      </button>
+      <div id="formEditAeronaves" class="conteudoEscondido"></div>
+      <div id="formEditAssentos" class="conteudoEscondido"></div>
+      <div id="formEditAeroportos" class="conteudoEscondido"></div>
+      <div id="formEditVoos" class="conteudoEscondido"></div>
+    </div>
+    <div id="conteudoEscondido3" class="conteudoEscondido">
+      <button class="mostrarBtn" data-target="formDelAeronaves">
+        Aeronaves
+      </button>
+      <button class="mostrarBtn" data-target="formDelVoos">
+        Voos agendados
+      </button>
+      <button class="mostrarBtn" data-target="formDelAssentos">Assentos</button>
+      <button class="mostrarBtn" data-target="formDelAeroportos">
+        Aeroportos
+      </button>
+      <div id="formDelAeronaves" class="conteudoEscondido"></div>
+      <div id="formDelAssentos" class="conteudoEscondido"></div>
+      <div id="formDelAeroportos" class="conteudoEscondido"></div>
+      <div id="formDelVoos" class="conteudoEscondido"></div>
+      <script src="script.js"></script>
+    </div>
+  </body>
+</html>
