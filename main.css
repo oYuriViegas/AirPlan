@@ -20,17 +20,17 @@ header h1 {
     font-size: 40px;
 }
 
-body {
-    background-image: url(images/background.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 .logo {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+}
+
+body {
+    background-image: url(images/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 #aviao {
@@ -39,4 +39,27 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-image: url(images/aviao1.png);
+}
+
+main {
+    margin-inline: 10%;
+}
+
+.slogan {
+    margin: 130px 0 0 100px;
+    backdrop-filter: blur(3px);
+    border-radius: 30px;
+    
+    box-shadow: 10px 5px 5px rgba(255, 255, 255, 0.06);
+}
+
+h2 {
+    font-family: 'Playfair Display';
+    font-size: 84px;
+    color: #fff;
+}
+
+#fim-frase {
+    display: flex;
+    margin-left: 500px;
 }
