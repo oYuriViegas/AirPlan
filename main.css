@@ -46,11 +46,9 @@ main {
 }
 
 .slogan {
-    margin: 130px 0 0 100px;
-    backdrop-filter: blur(3px);
+    margin: 130px 0 130px 100px;
+    backdrop-filter: blur(2px);
     border-radius: 30px;
-    
-    box-shadow: 10px 5px 5px rgba(255, 255, 255, 0.06);
 }
 
 h2 {
@@ -62,4 +60,27 @@ h2 {
 #fim-frase {
     display: flex;
     margin-left: 500px;
+}
+
+.cards {
+    display: flex;
+    justify-content: space-between;
+}
+
+#card-1 {
+    height: 400px;
+    width: 350px;
+    background-color: #fff;
+}
+
+#card-2 {
+    height: 400px;
+    width: 350px;
+    background-color: #fff;
+}
+
+#card-3 {
+    height: 400px;
+    width: 350px;
+    background-color: #fff;
 }
