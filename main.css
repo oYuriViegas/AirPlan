@@ -27,7 +27,7 @@ header h1 {
     gap: 10px;
 }
 
-body {
+#inicio {
     background-image: url(images/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -46,7 +46,7 @@ main {
 }
 
 .slogan {
-    margin: 130px 0 130px 100px;
+    margin: 120px 0 130px 50px;
     backdrop-filter: blur(2px);
     border-radius: 30px;
 }
@@ -59,7 +59,7 @@ h2 {
 
 #fim-frase {
     display: flex;
-    margin-left: 500px;
+    margin-left: 400px;
 }
 
 .cards {
@@ -68,19 +68,40 @@ h2 {
 }
 
 #card-1 {
-    height: 400px;
+    height: 500px;
     width: 350px;
     background-color: #fff;
+    margin-bottom: 100px;
+    border-radius: 30px;
+    background-image: url(images/london.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 #card-2 {
-    height: 400px;
+    height: 500px;
     width: 350px;
     background-color: #fff;
+    margin-bottom: 100px;
+    border-radius: 30px;
+    background-image: url(images/disney-world-orlando-papel-de-parede.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 #card-3 {
-    height: 400px;
+    height: 500px;
     width: 350px;
     background-color: #fff;
+    margin-bottom: 100px;
+    border-radius: 30px;
+    background-image: url(images/eifel-tower.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#meio {
+    height: 100px;
+    width: 100%;
+    background-color: rgb(255, 86, 56);
 }
