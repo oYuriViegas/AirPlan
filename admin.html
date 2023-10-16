@@ -1,195 +1,129 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <title>AIR plan | business</title>
-    <link rel="stylesheet" href="global.css" />
-  </head>
-  <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Cia Aérea</title>
+    <link rel="stylesheet" href="style-admin.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
     <header>
-      <div>
-        <h1>AIR plan</h1>
-        <h1>business</h1>
-        <button>Sair</button>
-      </div>
+        <h1>Painel Administrativo - Cia Aérea</h1>
     </header>
-    <h2>Gerenciar cadastros:</h2>
-    <button class="mostrarBtn" data-target="conteudoEscondido1">
-      Adicionar dados
-    </button>
-    <button class="mostrarBtn" data-target="conteudoEscondido2">
-      Editar dados
-    </button>
-    <button class="mostrarBtn" data-target="conteudoEscondido3">
-      Excluir dados
-    </button>
-    <div id="conteudoEscondido1" class="conteudoEscondido">
-      <button class="mostrarBtn" data-target="formAddAeronaves">
-        Aeronaves
-      </button>
-      <div id="formAddAeronaves" class="conteudoEscondido">
-        <form action="#" method="post">
-          <div>
-            <label for="modelo">Modelo:</label>
-            <br />
-            <input type="text" id="modelo" name="modelo" required />
-          </div>
-          <br />
-          <div>
-            <label for="numId">Número de identificação:</label>
-            <br />
-            <input type="text" id="numId" name="numId" required />
-          </div>
-          <br />
-          <div>
-            <label>Fabricante:</label>
-            <br />
-            <input
-              type="radio"
-              name="fabricante"
-              id="airbus"
-              value="airbus"
-              required
-            />
-            <label for="airbus">Airbus</label>
 
-            <input
-              type="radio"
-              name="fabricante"
-              id="Boeing"
-              value="Boeing"
-              required
-            />
-            <label for="Boeing">Boeing</label>
+    <nav>
+        <ul>
+            <li><button onclick="showSection('aeronaves')">Aeronaves</button></li>
+            <li><button onclick="showSection('aeroportos')">Aeroportos e Cidades</button></li>
+            <li><button onclick="showSection('trechos')">Trechos</button></li>
+            <li><button onclick="showSection('voos')">Voos</button></li>
+        </ul>
+    </nav>
 
-            <input
-              type="radio"
-              name="fabricante"
-              id="Embraer"
-              value="Embraer"
-              required
-            />
-            <label for="Embraer">Embraer</label>
-          </div>
-          <br />
-          <div>
-            <label for="anoFabrica">Ano de fabricação:</label>
-            <br />
-            <input type="number" id="anoFabrica" name="anoFabrica" required />
-          </div>
-          <br />
-          <input type="submit" value="Enviar" />
+    <section id="aeronaves">
+        <h2>Cadastro de Aeronaves</h2>
+        <form id="form-aeronaves">
+            <div>
+                <label for="modelo">Modelo:</label>
+                <input type="text" id="modelo" required>
+            </div>
+            <div>
+                <label for="identificacao">Número de Identificação:</label>
+                <input type="text" id="identificacao" required>
+            </div>
+            <div>
+                <label for="fabricante">Fabricante:</label>
+                <input type="text" id="fabricante" required>
+            </div>
+            <div>
+                <label for="ano">Ano de Fabricação:</label>
+                <input type="number" id="ano" required>
+            </div>
+            <div>
+                <label for="mapa-assentos">Mapa de Assentos:</label>
+                <textarea id="mapa-assentos" rows="4"></textarea>
+            </div>
+            <button type="submit">Salvar</button>
         </form>
-      </div>
-      <button class="mostrarBtn" data-target="formAddAssentos">Assentos</button>
-      <div id="formAddAssentos" class="conteudoEscondido">
-        <form action="#" method="post">
-          <input type="submit" value="Enviar" />
+        <ul id="lista-aeronaves">
+            <!-- Lista de aeronaves cadastradas -->
+        </ul>
+    </section>
+    
+    <section id="aeroportos">
+        <h2>Cadastro de Aeroportos e Cidades</h2>
+        <form id="form-aeroportos">
+            <div>
+                <label for="aeroporto">Aeroporto:</label>
+                <input type="text" id="aeroporto" required>
+            </div>
+            <div>
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" required>
+            </div>
+            <button type="submit">Salvar</button>
         </form>
-      </div>
-      <button class="mostrarBtn" data-target="formAddAeroportos">
-        Aeroportos
-      </button>
-      <div id="formAddAeroportos" class="conteudoEscondido">
-        <form action="#" method="post">
-          <div>
-            <label for="nome">Nome:</label>
-            <br />
-            <input type="text" id="nome" name="nome" required />
-          </div>
-          <br />
-          <div>
-            <label for="cidade">Cidade:</label>
-            <br />
-            <input type="text" id="cidade" name="cidade" required />
-          </div>
-          <br />
-          <input type="submit" value="Enviar" />
+        <ul id="lista-aeroportos">
+            <!-- Lista de aeroportos e cidades cadastradas -->
+        </ul>
+    </section>
+    
+    <section id="trechos">
+        <h2>Cadastro de Trechos</h2>
+        <form id="form-trechos">
+            <div>
+                <label for="origem">Origem:</label>
+                <input type="text" id="origem" required>
+            </div>
+            <div>
+                <label for="destino">Destino:</label>
+                <input type="text" id="destino" required>
+            </div>
+            <button type="submit">Salvar</button>
         </form>
-      </div>
-      <button class="mostrarBtn" data-target="formAddVoos">Voos</button>
-      <div id="formAddVoos" class="conteudoEscondido">
-        <form action="#" method="post">
-          <div>
-            <label for="trecho">Trecho:</label>
-            <br />
-            <input type="text" id="trecho" name="trecho" required />
-          </div>
-          <br />
-          <div>
-            <label for="data">Data:</label>
-            <br />
-            <input type="date" id="data" name="data" required />
-          </div>
-          <br />
-          <div>
-            <label for="horaPartida">Hora de partida:</label>
-            <br />
-            <input type="time" id="horaPartida" name="horaPartida" required />
-          </div>
-          <br />
-          <div>
-            <label for="horaChegada">Hora de chegada:</label>
-            <br />
-            <input type="time" id="horaChegada" name="horaChegada" required />
-          </div>
-          <br />
-          <div>
-            <label for="aeroportoSaida">Aeroporto de partida:</label
-            ><br /><select name="aeroportoSaida" id="aeroportoSaida">
-              <option value="teste1">TESTE1</option>
-              <option value="teste2">TESTE2</option>
-              <option value="teste3">TESTE3</option>
-            </select>
-          </div>
-          <br />
-          <div>
-            <label for="aeroportoChegada">Aeroporto de chegada:</label
-            ><br /><select name="aeroportoChegada" id="aeroportoChegada">
-              <option value="teste4">TESTE4</option>
-              <option value="teste5">TESTE5</option>
-              <option value="teste6">TESTE6</option>
-            </select>
-          </div>
-          <br />
-          <input type="submit" value="Enviar" />
+        <ul id="lista-trechos">
+            <!-- Lista de trechos cadastrados -->
+        </ul>
+    </section>
+    
+    <section id="voos">
+        <h2>Cadastro de Voos</h2>
+        <form id="form-voos">
+            <div>
+                <label for="numero-voo">Número do Voo:</label>
+                <input type="text" id="numero-voo" required>
+            </div>
+            <div>
+                <label for="data-voo">Data:</label>
+                <input type="date" id="data-voo" required>
+            </div>
+            <div>
+                <label for="horario-partida">Horário de Partida:</label>
+                <input type="time" id="horario-partida" required>
+            </div>
+            <div>
+                <label for="horario-chegada">Horário de Chegada:</label>
+                <input type="time" id="horario-chegada" required>
+            </div>
+            <div>
+                <label for="aeroporto-saida">Aeroporto de Saída:</label>
+                <input type="text" id="aeroporto-saida" required>
+            </div>
+            <div>
+                <label for="aeroporto-chegada">Aeroporto de Chegada:</label>
+                <input type="text" id="aeroporto-chegada" required>
+            </div>
+            <div>
+                <label for="valor-passagem">Valor por Passagem:</label>
+                <input type="number" id="valor-passagem" step="0.01" required>
+            </div>
+            <button type="submit">Salvar</button>
         </form>
-      </div>
-    </div>
+        <ul id="lista-voos">
+            <!-- Lista de voos cadastrados -->
+        </ul>
+    </section>
 
-    <div id="conteudoEscondido2" class="conteudoEscondido">
-      <button class="mostrarBtn" data-target="formEditVoos">
-        Voos agendados
-      </button>
-      <button class="mostrarBtn" data-target="formEditAeronaves">
-        Aeronaves
-      </button>
-      <button class="mostrarBtn" data-target="formEditAssentos">
-        Assentos
-      </button>
-      <button class="mostrarBtn" data-target="formEditAeroportos">
-        Aeroportos
-      </button>
-      <div id="formEditAeronaves" class="conteudoEscondido"></div>
-      <div id="formEditAssentos" class="conteudoEscondido"></div>
-      <div id="formEditAeroportos" class="conteudoEscondido"></div>
-      <div id="formEditVoos" class="conteudoEscondido"></div>
-    </div>
-    <div id="conteudoEscondido3" class="conteudoEscondido">
-      <button class="mostrarBtn" data-target="formDelAeronaves">
-        Aeronaves
-      </button>
-      <button class="mostrarBtn" data-target="formDelVoos">
-        Voos agendados
-      </button>
-      <button class="mostrarBtn" data-target="formDelAssentos">Assentos</button>
-      <button class="mostrarBtn" data-target="formDelAeroportos">
-        Aeroportos
-      </button>
-      <div id="formDelAeronaves" class="conteudoEscondido"></div>
-      <div id="formDelAssentos" class="conteudoEscondido"></div>
-      <div id="formDelAeroportos" class="conteudoEscondido"></div>
-      <div id="formDelVoos" class="conteudoEscondido"></div>
-      <script src="script.js"></script>
-    </div>
-  </body>
+</body>
 </html>
