@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const oracledb = require('oracledb');
 
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 
 // Configuração do banco de dados
 const dbConfig = {
@@ -45,3 +45,34 @@ app.post('/inserir-aeronave', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor em execução na porta ${PORT}`);
 });
+async function salvarAeroportos() {
+    const aeroporto = document.getElementById('aeroporto').value;
+    const cidade = document.getElementById('cidade').value;
+
+    try {
+        await oracledb.init();
+        const connection = await oracledb.getConnection({
+            user: 'System',
+            password: 'senha',
+            connectString: 'localhost:1521/XE',
+        });
+
+        const query = `
+            BEGIN
+                inserir_aeroporto(:p_aeroporto, :p_cidade);
+            END;
+        `;
+
+        const bindVars = {
+            p_aeroporto: aeroporto,
+            p_cidade: cidade,
+        };
+
+        const result = await connection.execute(query, bindVars, { autoCommit: true });
+
+        alert('Aeroportos e cidades salvos com sucesso!');
+    } catch (error) {
+        console.error('Erro ao salvar aeroportos e cidades:', error);
+        alert('Erro ao salvar aeroportos e cidades.');
+    }
+}

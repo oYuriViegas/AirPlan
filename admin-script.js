@@ -30,6 +30,33 @@ document.getElementById('form-aeronaves').addEventListener('submit', function(ev
     // Limpa o formulário
     event.target.reset();
 });
+document.getElementById('form-aeronaves').addEventListener('submit', function (event) {
+    event.preventDefault();
+  
+    const modelo = document.getElementById('modelo').value;
+    const identificacao = document.getElementById('identificacao').value;
+    const fabricante = document.getElementById('fabricante').value;
+    const anoFabricacao = document.getElementById('ano-fabricacao').value;
+  
+    fetch('/inserir-aeronave', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ modelo, identificacao, fabricante, anoFabricacao }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert(data.message);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert('Erro ao inserir aeronave no banco de dados.');
+      });
+  
+    // Limpa o formulário
+    event.target.reset();
+  });
 
 // Funcionalidade para o formulário de aeroportos
 document.getElementById('form-aeroportos').addEventListener('submit', function(event) {
