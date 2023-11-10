@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Cidades</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <h1>Gerenciamento de Cidades</h1>
+
+    <form id="cidadeForm">
+        <h2>Adicionar Cidade</h2>
+        <input type="text" id="nomeCidade" placeholder="Nome da Cidade" required>
+        <input type="text" id="estadoCidade" placeholder="Estado" required>
+        <input type="hidden" id="cidadeId">
+        <button type="submit">Salvar</button>
+    </form>
+
+
+    <!-- <h2>Consultar Cidade</h2>
+    <div>
+        <input type="number" id="searchCidadeId" placeholder="Digite o ID da cidade" />
+        <button id="searchCidadeBtn">Pesquisar Cidade</button>
+    </div>
+
+    <div id="cidadeDetails" style="margin-top: 20px;"></div> -->
+
+    <table id="cidadesTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Estado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- As cidades serão inseridas aqui -->
+        </tbody>
+    </table>
+
+    <script type="module" src="../js/api-cidade.js"></script>
+    <script type="module" src="../js/script-cidade.js"></script>
+</body>
+
+</html>
