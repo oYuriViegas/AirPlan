@@ -1,7 +1,7 @@
 // /backend/api/controllers/cidadeController.js
 
 const oracledb = require('oracledb');
-const db = require('../db.js'); // Caminho ajustado conforme sua estrutura de diretório
+const db = require('../db.js');
 
 // Função para listar todas as cidades
 async function getAllCidades(req, res) {
@@ -51,13 +51,13 @@ async function getCidadeById(req, res) {
 // Função para adicionar uma nova cidade
 async function createCidade(req, res) {
   let connection;
-  const { nome, estado } = req.body; // Incluindo o novo campo estado
+  const { nome, estado, pais } = req.body;
 
   try {
     connection = await db.openConnection();
 
-    const sql = `INSERT INTO Cidades (nome, estado) VALUES (:nome, :estado)`;
-    const result = await connection.execute(sql, [nome, estado], {
+    const sql = `INSERT INTO Cidades (Nome, Estado, Pais) VALUES (:nome, :estado, :pais)`;
+    const result = await connection.execute(sql, [nome, estado, pais], {
       autoCommit: true,
     });
 
@@ -71,17 +71,16 @@ async function createCidade(req, res) {
 }
 
 // Função para atualizar uma cidade existente
-// Função para atualizar uma cidade existente
 async function updateCidade(req, res) {
   let connection;
   const { id } = req.params;
-  const { NOME, ESTADO } = req.body; // Certifique-se de que esses nomes de campos correspondem ao que você está enviando do frontend
+  const { NOME, ESTADO, PAIS } = req.body;
 
   try {
     connection = await db.openConnection();
 
-    const sql = `UPDATE Cidades SET Nome = :NOME, Estado = :ESTADO WHERE CidadeID = :id`;
-    const result = await connection.execute(sql, [NOME, ESTADO, id], {
+    const sql = `UPDATE Cidades SET Nome = :NOME, Estado = :ESTADO, Pais = :PAIS WHERE CidadeID = :id`;
+    const result = await connection.execute(sql, [NOME, ESTADO, PAIS, id], {
       autoCommit: true,
     });
 
