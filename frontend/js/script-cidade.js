@@ -6,6 +6,7 @@ const cidadesTableBody = document.querySelector('#cidadesTable tbody');
 const cidadeForm = document.querySelector('#cidadeForm');
 const nomeInput = document.querySelector('#nomeCidade');
 const estadoInput = document.querySelector('#estadoCidade');
+const paisInput = document.querySelector('#paisCidade');
 const cidadeIdInput = document.querySelector('#cidadeId');
 
 // Função para criar linhas da tabela com os dados das cidades
@@ -15,6 +16,7 @@ function createTableRow(cidade) {
       <td data-label="CIDADEID">${cidade.CIDADEID}</td>
       <td data-label="NOME">${cidade.NOME}</td>
       <td data-label="ESTADO">${cidade.ESTADO}</td>
+      <td data-label="PAIS">${cidade.PAIS}</td>
       <td>
         <button class="edit-btn">Editar</button>
         <button class="delete-btn">Excluir</button>
@@ -43,9 +45,10 @@ function loadCidades() {
 
 function editCidade(cidade, row) {
     // Transforma as células da tabela em campos de entrada
-    row.children[0].innerHTML = cidade.CIDADEID; // ID permanece como texto
+    row.children[0].innerHTML = cidade.CIDADEID;
     row.children[1].innerHTML = `<input type="text" value="${cidade.NOME}" />`;
     row.children[2].innerHTML = `<input type="text" value="${cidade.ESTADO}" />`;
+    row.children[3].innerHTML = `<input type="text" value="${cidade.PAIS}" />`;
   
     // Muda os botões
     const saveButton = document.createElement('button');
@@ -56,14 +59,15 @@ function editCidade(cidade, row) {
     cancelButton.textContent = 'Cancelar';
     cancelButton.addEventListener('click', () => cancelEdit(cidade, row));
   
-    row.children[3].innerHTML = ''; // Limpa a célula dos botões
-    row.children[3].appendChild(saveButton);
-    row.children[3].appendChild(cancelButton);
+    row.children[4].innerHTML = ''; // Limpa a célula dos botões
+    row.children[4].appendChild(saveButton);
+    row.children[4].appendChild(cancelButton);
   }
   
   function saveEdit(cidade, row) {
     const updatedNome = row.children[1].querySelector('input').value.trim();
     const updatedEstado = row.children[2].querySelector('input').value.trim();
+    const updatedPais = row.children[3].querySelector('input').value.trim();
   
     // Verifica se os campos não estão vazios
     if (!updatedNome || !updatedEstado) {
@@ -73,7 +77,8 @@ function editCidade(cidade, row) {
   
     const cidadeData = {
       NOME: updatedNome,
-      ESTADO: updatedEstado
+      ESTADO: updatedEstado,
+      PAIS: updatedPais
     };
   
     // Chamada para a API de atualização
@@ -97,7 +102,8 @@ cidadeForm.addEventListener('submit', function (event) {
 
     const cidadeData = {
         nome: nomeInput.value,
-        estado: estadoInput.value
+        estado: estadoInput.value,
+        pais: paisInput.value
     };
 
     const cidadeId = cidadeIdInput.value;
@@ -125,6 +131,7 @@ function startEdit(cidade) {
     nomeInput.value = cidade.Nome;  // Alterado de cidade.nome para cidade.Nome
     estadoInput.value = cidade.Estado;  // Alterado de cidade.estado para cidade.Estado
     cidadeIdInput.value = cidade.CidadeID;  // Alterado de cidade.id para cidade.CidadeID
+    paisInput.value = cidade.PAIS;
 }
 
 // Função para iniciar a exclusão de uma cidade
@@ -136,57 +143,12 @@ function startDelete(id) {
     }
 }
 
-/* function showCidadeDetails(cidade) {
-  const detailsDiv = document.querySelector('#cidadeDetails');
-  detailsDiv.innerHTML = ''; // Limpa os detalhes anteriores
-
-  if (cidade) {
-      // Cria elementos para mostrar os detalhes da cidade
-      const nomeEl = document.createElement('p');
-      nomeEl.textContent = `Nome: ${cidade.nome}`;
-
-      const estadoEl = document.createElement('p');
-      estadoEl.textContent = `Estado: ${cidade.estado}`;
-
-      const editBtn = document.createElement('button');
-      editBtn.textContent = 'Editar';
-      editBtn.onclick = () => startEdit(cidade);
-
-      const deleteBtn = document.createElement('button');
-      deleteBtn.textContent = 'Excluir';
-      deleteBtn.onclick = () => startDelete(cidade.id);
-
-      // Adiciona os elementos ao DOM
-      detailsDiv.appendChild(nomeEl);
-      detailsDiv.appendChild(estadoEl);
-      detailsDiv.appendChild(editBtn);
-      detailsDiv.appendChild(deleteBtn);
-  }
-}
-
-document.querySelector('#searchCidadeBtn').addEventListener('click', function() {
-  const id = document.querySelector('#searchCidadeId').value;
-  if (id) {
-      getCidadeById(id)
-          .then(response => {
-              showCidadeDetails(response.data);
-          })
-          .catch(error => {
-              console.error('Falha ao carregar cidade:', error);
-              showCidadeDetails(null); // Limpa os detalhes se a busca falhar
-          });
-  } else {
-      alert('Por favor, insira um ID válido.');
-  }
-}); */
-
-
-
 // Função para resetar o formulário
 function resetForm() {
     nomeInput.value = '';
     estadoInput.value = '';
     cidadeIdInput.value = '';
+    paisInput.value = '';
 }
 
 // Carrega as cidades quando a página é carregada
