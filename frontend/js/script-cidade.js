@@ -106,6 +106,11 @@ cidadeForm.addEventListener('submit', function (event) {
         pais: paisInput.value
     };
 
+    if (!aeroportoData.nome || !aeroportoData.sigla || !aeroportoData.cidadeId) {
+      alert('Todos os campos são obrigatórios');
+      return;
+  }
+
     const cidadeId = cidadeIdInput.value;
     if (cidadeId) {
         // Atualizar cidade existente

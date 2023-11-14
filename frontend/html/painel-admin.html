@@ -14,29 +14,82 @@
         <!-- Navegação -->
         <nav>
             <ul>
-                <li><a href="#cidades">Cidades</a></li>
-                <li><a href="#aeroportos">Aeroportos</a></li>
-                <li><a href="#aeronaves">Aeronaves</a></li>
-                <li><a href="#trechos">Trechos</a></li>
-                <li><a href="#voos">Voos</a></li>
-                <li><a href="#assentos">Assentos</a></li>
-                <li><a href="#clientes">Clientes</a></li>
-                <li><a href="#reservas">Reservas</a></li>
+                <li><a href="#" data-section="cidades">Cidades</a></li>
+                <li><a href="#" data-section="aeroportos">Aeroportos</a></li>
+                <li><a href="#" data-section="aeronaves">Aeronaves</a></li>
+                <li><a href="#" data-section="trechos">Trechos</a></li>
+                <li><a href="#" data-section="voos">Voos</a></li>
+                <li><a href="#" data-section="assentos">Assentos</a></li>
+                <li><a href="#" data-section="clientes">Clientes</a></li>
+                <li><a href="#" data-section="reservas">Reservas</a></li>
             </ul>
         </nav>
     </header>
+    
 
     <main>
         <!-- Seções para cada tabela -->
         <section id="cidades">
             <h2>Gerenciamento de Cidades</h2>
-            <!-- Conteúdo para gerenciamento de Cidades -->
-            <!-- Incluir formulários e tabelas -->
+            <form id="cidadeForm">
+                <h3>Adicionar Cidade</h3>
+                <input type="text" id="nomeCidade" placeholder="Nome da Cidade" required>
+                <input type="text" id="estadoCidade" placeholder="Estado" required>
+                <input type="text" id="paisCidade" placeholder="País" required>
+                <input type="hidden" id="cidadeId">
+                <button type="submit">Salvar</button>
+            </form>
+        
+            <table id="cidadesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Estado</th>
+                        <th>País</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As cidades serão inseridas aqui -->
+                </tbody>
+            </table>
+        
+            <script type="module" src="../js/api-cidade.js"></script>
+            <script type="module" src="../js/script-cidade.js"></script>
         </section>
 
         <section id="aeroportos">
-            <h2>Gerenciamento de Aeroportos</h2>
-            <!-- Conteúdo para gerenciamento de Aeroportos -->
+            <section id="aeroportos">
+                <h2>Gerenciamento de Aeroportos</h2>
+                <form id="aeroportoForm">
+                    <h3>Adicionar/Editar Aeroporto</h3>
+                    <input type="text" id="nomeAeroporto" placeholder="Nome do Aeroporto" required>
+                    <input type="text" id="siglaAeroporto" placeholder="Sigla do Aeroporto" required>
+                    <input type="number" id="cidadeIdAeroporto" placeholder="ID da Cidade" required>
+                    <input type="hidden" id="aeroportoId">
+                    <button type="submit">Salvar</button>
+                </form>
+            
+                <table id="aeroportosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Sigla</th>
+                            <th>ID da Cidade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Os aeroportos serão inseridos aqui -->
+                    </tbody>
+                </table>
+            
+                <script type="module" src="../js/api-aeroporto.js"></script>
+                <script type="module" src="../js/script-aeroporto.js"></script>
+            </section>
+            
         </section>
 
         <!-- Repetir para as outras tabelas (Aeronaves, Trechos, Voos, Assentos, Clientes, Reservas) -->
@@ -47,7 +100,7 @@
         <p>&copy; 2023 AirPlan - Todos os direitos reservados</p>
     </footer>
 
-    <script src="../js/script-cidade.js"></script> <!-- Caminho para seus arquivos JS -->
+    <script src="../js/script-admin.js"></script> <!-- Caminho para seus arquivos JS -->
     <!-- Outros arquivos JS conforme necessário -->
 </body>
 </html>

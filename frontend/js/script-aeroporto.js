@@ -7,6 +7,7 @@ const aeroportoForm = document.querySelector('#aeroportoForm');
 const nomeInput = document.querySelector('#nomeAeroporto');
 const cidadeIdInput = document.querySelector('#cidadeIdAeroporto');
 const aeroportoIdInput = document.querySelector('#aeroportoId');
+const siglaInput = document.querySelector('#siglaAeroporto');
 
 // Função para criar linhas da tabela com os dados dos aeroportos
 function createTableRow(aeroporto) {
@@ -14,6 +15,7 @@ function createTableRow(aeroporto) {
     row.innerHTML = `
       <td>${aeroporto.AEROPORTOID}</td>
       <td>${aeroporto.NOME}</td>
+      <td>${aeroporto.SIGLA}</td>
       <td>${aeroporto.CIDADEID}</td>
       <td>
         <button class="edit-btn">Editar</button>
@@ -45,6 +47,7 @@ aeroportoForm.addEventListener('submit', function (event) {
 
     const aeroportoData = {
         nome: nomeInput.value,
+        sigla: siglaInput.value,
         cidadeId: cidadeIdInput.value
     };
 
@@ -71,7 +74,8 @@ aeroportoForm.addEventListener('submit', function (event) {
 function editAeroporto(aeroporto, row) {
     // Transforma as células da tabela em campos de entrada
     row.children[1].innerHTML = `<input type="text" value="${aeroporto.NOME}" />`;
-    row.children[2].innerHTML = `<select id="cidadeSelect"><option value="${aeroporto.CIDADEID}">Cidade Atual (ID: ${aeroporto.CIDADEID})</option></select>`;
+    row.children[2].innerHTML = `<input type="text" value="${aeroporto.SIGLA}" />`;
+    row.children[3].innerHTML = `<input type="text" value="${aeroporto.CIDADEID}" />`;
   
     // Muda os botões
     const saveButton = document.createElement('button');
@@ -82,31 +86,34 @@ function editAeroporto(aeroporto, row) {
     cancelButton.textContent = 'Cancelar';
     cancelButton.addEventListener('click', () => cancelEdit(aeroporto, row));
   
-    row.children[3].innerHTML = ''; // Limpa a célula dos botões
-    row.children[3].appendChild(saveButton);
-    row.children[3].appendChild(cancelButton);
+    row.children[4].innerHTML = ''; // Limpa a célula dos botões
+    row.children[4].appendChild(saveButton);
+    row.children[4].appendChild(cancelButton);
   }
 
   function saveEdit(aeroporto, row) {
     const updatedNome = row.children[1].querySelector('input').value.trim();
-    const updatedCidadeId = row.children[2].querySelector('select').value;
+    const updatedSigla = row.children[2].querySelector('input').value.trim();
+    const updatedCidadeId = row.children[3].querySelector('input').value;
   
     // Verifica se o campo não está vazio
     if (!updatedNome) {
       alert('O campo nome não pode estar vazio.');
       return;
     }
-  
+
     const aeroportoData = {
-      NOME: updatedNome,
-      CIDADEID: updatedCidadeId
-    };
-  
+        NOME: updatedNome,
+        SIGLA: updatedSigla, 
+        CIDADEID: updatedCidadeId
+      };
+
     // Chamada para a API de atualização
     updateAeroporto(aeroporto.AEROPORTOID, aeroportoData)
       .then(() => loadAeroportos())
       .catch(error => console.error('Falha ao atualizar aeroporto:', error));
-  }
+
+}
 
 function cancelEdit(aeroporto, row) {
     // recria a linha da tabela com os valores originais
@@ -117,7 +124,8 @@ function cancelEdit(aeroporto, row) {
 // Função para iniciar a edição de um aeroporto
 function startEdit(aeroporto) {
     nomeInput.value = aeroporto.NOME;
-    cidadeIdInput.value = aeroporto.CIDADEID; 
+    siglaInput.value = aeroporto.SIGLA;
+    cidadeIdInput.value = aeroporto.CIDADEID;
     aeroportoIdInput.value = aeroporto.AEROPORTOID;
 }
 
