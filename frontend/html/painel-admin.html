@@ -1,24 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo</title>
-    <link rel="stylesheet" href="seu-estilo.css"> <!-- Adicione o caminho para seu arquivo CSS -->
+    <title>Painel Administrativo - AirPlan</title>
+    <link rel="stylesheet" href="../css/style-admin.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Outros scripts necessários -->
 </head>
 <body>
-    <h1>Painel Administrativo</h1>
-    <nav>
-        <button id="btnCidades">Cidades</button>
-        <button id="btnAeroportos">Aeroportos</button>
-        <!-- Outros botões para diferentes tabelas -->
-    </nav>
+    <header>
+        <h1>Painel Administrativo AirPlan</h1>
+        <!-- Navegação -->
+        <nav>
+            <ul>
+                <li><a href="#cidades">Cidades</a></li>
+                <li><a href="#aeroportos">Aeroportos</a></li>
+                <li><a href="#aeronaves">Aeronaves</a></li>
+                <li><a href="#trechos">Trechos</a></li>
+                <li><a href="#voos">Voos</a></li>
+                <li><a href="#assentos">Assentos</a></li>
+                <li><a href="#clientes">Clientes</a></li>
+                <li><a href="#reservas">Reservas</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div id="conteudo">
-        <!-- O conteúdo dinâmico será carregado aqui -->
-    </div>
+    <main>
+        <!-- Seções para cada tabela -->
+        <section id="cidades">
+            <h2>Gerenciamento de Cidades</h2>
+            <!-- Conteúdo para gerenciamento de Cidades -->
+            <!-- Incluir formulários e tabelas -->
+        </section>
 
-    <script type="module" src="frontend\js\admin-script.js"></script>
+        <section id="aeroportos">
+            <h2>Gerenciamento de Aeroportos</h2>
+            <!-- Conteúdo para gerenciamento de Aeroportos -->
+        </section>
+
+        <!-- Repetir para as outras tabelas (Aeronaves, Trechos, Voos, Assentos, Clientes, Reservas) -->
+
+    </main>
+
+    <footer>
+        <p>&copy; 2023 AirPlan - Todos os direitos reservados</p>
+    </footer>
+
+    <script src="../js/script-cidade.js"></script> <!-- Caminho para seus arquivos JS -->
+    <!-- Outros arquivos JS conforme necessário -->
 </body>
 </html>
