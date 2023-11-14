@@ -26,7 +26,7 @@ function createTableRow(aeroporto) {
     row.querySelector('.edit-btn').addEventListener('click', () => editAeroporto(aeroporto, row));
     row.querySelector('.delete-btn').addEventListener('click', () => startDelete(aeroporto.AEROPORTOID));
     return row;
-  }
+}
 
 // Função para carregar e exibir a lista de aeroportos
 function loadAeroportos() {
@@ -76,42 +76,48 @@ function editAeroporto(aeroporto, row) {
     row.children[1].innerHTML = `<input type="text" value="${aeroporto.NOME}" />`;
     row.children[2].innerHTML = `<input type="text" value="${aeroporto.SIGLA}" />`;
     row.children[3].innerHTML = `<input type="text" value="${aeroporto.CIDADEID}" />`;
-  
+
     // Muda os botões
     const saveButton = document.createElement('button');
     saveButton.textContent = 'Salvar';
     saveButton.addEventListener('click', () => saveEdit(aeroporto, row));
-  
+
     const cancelButton = document.createElement('button');
     cancelButton.textContent = 'Cancelar';
     cancelButton.addEventListener('click', () => cancelEdit(aeroporto, row));
-  
+
     row.children[4].innerHTML = ''; // Limpa a célula dos botões
     row.children[4].appendChild(saveButton);
     row.children[4].appendChild(cancelButton);
-  }
+}
 
-  function saveEdit(aeroporto, row) {
+function saveEdit(aeroporto, row) {
     const updatedNome = row.children[1].querySelector('input').value.trim();
     const updatedSigla = row.children[2].querySelector('input').value.trim();
     const updatedCidadeId = row.children[3].querySelector('input').value;
-  
+
     // Verifica se o campo não está vazio
     if (!updatedNome) {
-      alert('O campo nome não pode estar vazio.');
-      return;
+        alert('O campo nome não pode estar vazio.');
+        return;
     }
 
     const aeroportoData = {
-        NOME: updatedNome,
-        SIGLA: updatedSigla, 
-        CIDADEID: updatedCidadeId
-      };
+        nome: updatedNome,
+        sigla: updatedSigla,
+        cidadeId: parseInt(updatedCidadeId)
+    };
+
+
+
+    console.log(typeof (aeroportoData.CIDADEID));
+
+    console.log(aeroportoData)
 
     // Chamada para a API de atualização
     updateAeroporto(aeroporto.AEROPORTOID, aeroportoData)
-      .then(() => loadAeroportos())
-      .catch(error => console.error('Falha ao atualizar aeroporto:', error));
+        .then(() => loadAeroportos())
+        .catch(error => console.error('Falha ao atualizar aeroporto:', error));
 
 }
 
@@ -143,6 +149,7 @@ function startDelete(id) {
 function resetForm() {
     nomeInput.value = '';
     cidadeIdInput.value = '';
+    aeroportoIdInput.value = '';
     aeroportoIdInput.value = '';
 }
 

@@ -2,6 +2,7 @@
 const oracledb = require('oracledb');
 const db = require('../db.js'); // Ajuste o caminho conforme sua estrutura de diretório
 
+
 // Função para listar todos os aeroportos
 async function getAllAeroportos(req, res) {
   let connection;
@@ -57,7 +58,7 @@ async function getAeroportoById(req, res) {
 async function createAeroporto(req, res) {
     let connection;
     const { nome, sigla, cidadeId } = req.body;
-  
+    
     try {
       connection = await db.openConnection();
       const sql = `INSERT INTO Aeroportos (Nome, Sigla, CidadeID) VALUES (:nome, :sigla, :cidadeId)`;
@@ -81,9 +82,11 @@ async function updateAeroporto(req, res) {
   let connection;
   const { id } = req.params;
   const { nome, sigla, cidadeId } = req.body;
+  console.log({ nome, sigla, cidadeId, id });
+
   try {
     connection = await db.openConnection();
-    const sql = `UPDATE Aeroportos SET Nome = :nome, Sigla = :sigla, CidadeID = :cidadeId WHERE AeroportoID = :id`; // Adicionar a sigla na consulta
+    const sql = `UPDATE Aeroportos SET Nome = :nome, Sigla = :sigla, CidadeID = :cidadeId WHERE AeroportoID = :id`; 
     const result = await connection.execute(sql, [nome, sigla, cidadeId, id], { autoCommit: true });
     if (result.rowsAffected === 0) {
       res.status(404).send('Aeroporto não encontrado ou não alterado');
