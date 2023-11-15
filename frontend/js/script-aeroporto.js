@@ -109,11 +109,6 @@ function saveEdit(aeroporto, row) {
     };
 
 
-
-    console.log(typeof (aeroportoData.CIDADEID));
-
-    console.log(aeroportoData)
-
     // Chamada para a API de atualização
     updateAeroporto(aeroporto.AEROPORTOID, aeroportoData)
         .then(() => loadAeroportos())
@@ -149,7 +144,7 @@ function startDelete(id) {
 function resetForm() {
     nomeInput.value = '';
     cidadeIdInput.value = '';
-    aeroportoIdInput.value = '';
+    siglaInput.value = '';
     aeroportoIdInput.value = '';
 }
 
