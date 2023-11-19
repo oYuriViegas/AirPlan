@@ -127,6 +127,34 @@
             <script type="module" src="../js/script-aeronave.js"></script>
         </section>
         
+        <section id="trechos">
+            <h2>Gerenciamento de Trechos</h2>
+            <form id="trechoForm">
+                <h3>Adicionar/Editar Trecho</h3>
+                <input type="number" id="origemIdTrecho" placeholder="ID do Aeroporto de Origem" required>
+                <input type="number" id="destinoIdTrecho" placeholder="ID do Aeroporto de Destino" required>
+                <input type="hidden" id="trechoId">
+                <button type="submit">Salvar</button>
+            </form>
+        
+            <table id="trechosTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ID Origem</th>
+                        <th>ID Destino</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Os trechos serão inseridos aqui -->
+                </tbody>
+            </table>
+        
+            <script type="module" src="../js/api-trecho.js"></script>
+            <script type="module" src="../js/script-trecho.js"></script>
+        </section>
+        
 
         <!-- Repetir para as outras tabelas (Aeronaves, Trechos, Voos, Assentos, Clientes, Reservas) -->
 
