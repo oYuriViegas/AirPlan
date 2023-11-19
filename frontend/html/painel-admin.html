@@ -63,7 +63,7 @@
             <section id="aeroportos">
                 <h2>Gerenciamento de Aeroportos</h2>
                 <form id="aeroportoForm">
-                    <h3>Adicionar/Editar Aeroporto</h3>
+                    <h3>Adicionar Aeroporto</h3>
                     <input type="text" id="nomeAeroporto" placeholder="Nome do Aeroporto" required>
                     <input type="text" id="siglaAeroporto" placeholder="Sigla do Aeroporto" required>
                     <input type="number" id="cidadeIdAeroporto" placeholder="ID da Cidade" required>
@@ -91,6 +91,42 @@
             </section>
             
         </section>
+
+        <section id="aeronaves">
+            <h2>Gerenciamento de Aeronaves</h2>
+            <form id="aeronaveForm">
+                <h3>Adicionar Aeronave</h3>
+                <input type="text" id="modeloAeronave" placeholder="Modelo da Aeronave" required>
+                <input type="text" id="numeroIdentificacao" placeholder="Número de Identificação" required>
+                <input type="text" id="fabricanteAeronave" placeholder="Fabricante" required>
+                <input type="number" id="anoFabricacao" placeholder="Ano de Fabricação" required>
+                <input type="number" id="qtdLinhas" placeholder="Quantidade de Linhas" required>
+                <input type="number" id="qtdColunas" placeholder="Quantidade de Colunas" required>
+                <input type="hidden" id="aeronaveId">
+                <button type="submit">Salvar</button>
+            </form>
+        
+            <table id="aeronavesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Modelo</th>
+                        <th>Número de Identificação</th>
+                        <th>Fabricante</th>
+                        <th>Ano de Fabricação</th>
+                        <th>Layout (Linhas x Colunas)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As aeronaves serão inseridas aqui -->
+                </tbody>
+            </table>
+        
+            <script type="module" src="../js/api-aeronave.js"></script>
+            <script type="module" src="../js/script-aeronave.js"></script>
+        </section>
+        
 
         <!-- Repetir para as outras tabelas (Aeronaves, Trechos, Voos, Assentos, Clientes, Reservas) -->
 
