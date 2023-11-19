@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const apiBaseUrl = 'http://localhost:3000/aeronaves';
 
 function getAeronaves() {
