@@ -3,11 +3,11 @@ const cors = require('cors');
 const cidadeRoutes = require('./api/routes/cidadeRoutes');
 const aeroportoRoutes = require('./api/routes/aeroportoRoutes');
 const aeronaveRoutes = require('./api/routes/aeronaveRoutes');
-const trechoRoutes = require('./api/routes/trechoRoutes');      
+/* const trechoRoutes = require('./api/routes/trechoRoutes');      
 const vooRoutes = require('./api/routes/vooRoutes');            
 const assentoRoutes = require('./api/routes/assentoRoutes');    
 const clienteRoutes = require('./api/routes/clienteRoutes');    
-const reservaRoutes = require('./api/routes/reservaRoutes');    
+const reservaRoutes = require('./api/routes/reservaRoutes');    */ 
 
 const app = express();
 const port = 3000;
@@ -22,11 +22,11 @@ app.use(express.json());
 app.use('/cidades', cidadeRoutes);
 app.use('/aeroportos', aeroportoRoutes);
 app.use('/aeronaves', aeronaveRoutes);   
-app.use('/trechos', trechoRoutes);       
+/* app.use('/trechos', trechoRoutes);       
 app.use('/voos', vooRoutes);             
 app.use('/assentos', assentoRoutes);     
 app.use('/clientes', clienteRoutes);     
-app.use('/reservas', reservaRoutes);     
+app.use('/reservas', reservaRoutes);      */
 
 // Inicializa o servidor na porta especificada e loga uma mensagem para o console
 app.listen(port, () => {
