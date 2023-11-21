@@ -64,10 +64,9 @@ CREATE TABLE Assentos (
     Linha NUMBER NOT NULL,
     Coluna NUMBER NOT NULL,
     PRIMARY KEY (AssentoID),
-    CONSTRAINT fk_Assentos_Aeronaves FOREIGN KEY (AeronaveID) REFERENCES Aeronaves(AeronaveID),
+    CONSTRAINT fk_Assentos_Aeronaves FOREIGN KEY (AeronaveID) REFERENCES Aeronaves(AeronaveID) ON DELETE CASCADE,
     CONSTRAINT uc_Assentos_Posicao UNIQUE (AeronaveID, Linha, Coluna)
 );
-
 
 
 -- Criação da tabela Clientes
