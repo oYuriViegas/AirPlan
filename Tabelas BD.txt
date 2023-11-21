@@ -102,6 +102,9 @@ BEGIN
     END LOOP;
 END;
 
+ALTER TABLE Assentos
+ADD CONSTRAINT fk_Assentos_Aeronaves FOREIGN KEY (AeronaveID)
+REFERENCES Aeronaves(AeronaveID)
+ON DELETE CASCADE;
 
-
-
+ALTER TABLE Voos MODIFY (DataHoraPartida DATE, DataHoraChegada DATE);
