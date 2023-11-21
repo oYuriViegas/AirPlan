@@ -1,5 +1,5 @@
 const express = require('express');
-const vooController = require('./vooController'); // Ajuste o caminho conforme necessário
+const vooController = require('../controllers/vooController'); // Ajuste o caminho conforme necessário
 const router = express.Router();
 
 // Rota para buscar todos os voos
