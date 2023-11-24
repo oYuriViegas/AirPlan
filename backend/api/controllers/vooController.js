@@ -47,8 +47,7 @@ async function createVoo(req, res) {
     const { AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento } = req.body;
     try {
         connection = await db.openConnection();
-        const sql = `INSERT INTO Voos (AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento) 
-            VALUES (:AeronaveID, :TrechoID, TO_DATE(:DataHoraPartida, 'DD/MM/YYYY HH24:MI'), TO_DATE(:DataHoraChegada, 'DD/MM/YYYY HH24:MI'), :ValorAssento)`;
+        const sql = `INSERT INTO Voos (AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento) VALUES (:AeronaveID, :TrechoID, TO_DATE(:DataHoraPartida, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:DataHoraChegada, 'YYYY-MM-DD HH24:MI:SS'), :ValorAssento)`;
         await connection.execute(sql, [AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento], { autoCommit: true });
         res.status(201).json({ message: 'Voo criado com sucesso' });
     } catch (error) {
@@ -67,7 +66,7 @@ async function updateVoo(req, res) {
     const { AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento } = req.body;
     try {
         connection = await db.openConnection();
-        const sql = `UPDATE Voos SET AeronaveID = :AeronaveID, TrechoID = :TrechoID, DataHoraPartida = TO_DATE(:DataHoraPartida, 'DD/MM/YYYY HH24:MI'), DataHoraChegada = TO_DATE(:DataHoraChegada, 'DD/MM/YYYY HH24:MI'), ValorAssento = :ValorAssento WHERE VooID = :id`;
+        const sql = `UPDATE Voos SET AeronaveID = :AeronaveID, TrechoID = :TrechoID, DataHoraPartida = :DataHoraPartida, DataHoraChegada = :DataHoraChegada, ValorAssento = :ValorAssento WHERE VooID = :id`;
         const result = await connection.execute(sql, [AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento, id], { autoCommit: true });
         if (result.rowsAffected === 0) {
             res.status(404).send('Voo não encontrado ou não alterado');
