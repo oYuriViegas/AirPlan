@@ -1,170 +1,287 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Painel Administrativo - AirPlan</title>
-    <link rel="stylesheet" href="../css/style-admin.css">
+    <link rel="stylesheet" href="../css/style-admin.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Outros scripts necessários -->
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Painel Administrativo AirPlan</h1>
-        <!-- Navegação -->
-        <nav>
-            <ul>
-                <li><a href="#" data-section="cidades">Cidades</a></li>
-                <li><a href="#" data-section="aeroportos">Aeroportos</a></li>
-                <li><a href="#" data-section="aeronaves">Aeronaves</a></li>
-                <li><a href="#" data-section="trechos">Trechos</a></li>
-                <li><a href="#" data-section="voos">Voos</a></li>
-                <li><a href="#" data-section="assentos">Assentos</a></li>
-                <li><a href="#" data-section="clientes">Clientes</a></li>
-                <li><a href="#" data-section="reservas">Reservas</a></li>
-            </ul>
-        </nav>
+      <h1>Painel Administrativo AirPlan</h1>
+      <!-- Navegação -->
+      <nav>
+        <ul>
+          <li><a href="#" data-section="cidades">Cidades</a></li>
+          <li><a href="#" data-section="aeroportos">Aeroportos</a></li>
+          <li><a href="#" data-section="aeronaves">Aeronaves</a></li>
+          <li><a href="#" data-section="trechos">Trechos</a></li>
+          <li><a href="#" data-section="voos">Voos</a></li>
+          <li><a href="#" data-section="assentos">Assentos</a></li>
+          <li><a href="#" data-section="clientes">Clientes</a></li>
+          <li><a href="#" data-section="reservas">Reservas</a></li>
+        </ul>
+      </nav>
     </header>
-    
 
     <main>
-        <!-- Seções para cada tabela -->
-        <section id="cidades">
-            <h2>Gerenciamento de Cidades</h2>
-            <form id="cidadeForm">
-                <h3>Adicionar Cidade</h3>
-                <input type="text" id="nomeCidade" placeholder="Nome da Cidade" required>
-                <input type="text" id="estadoCidade" placeholder="Estado" required>
-                <input type="text" id="paisCidade" placeholder="País" required>
-                <input type="hidden" id="cidadeId">
-                <button type="submit">Salvar</button>
-            </form>
-        
-            <table id="cidadesTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Estado</th>
-                        <th>País</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As cidades serão inseridas aqui -->
-                </tbody>
-            </table>
-        
-            <script type="module" src="../js/api-cidade.js"></script>
-            <script type="module" src="../js/script-cidade.js"></script>
-        </section>
+      <!-- Seções para cada tabela -->
+      <section id="cidades">
+        <h2>Gerenciamento de Cidades</h2>
+        <form id="cidadeForm">
+          <h3>Adicionar Cidade</h3>
+          <input
+            type="text"
+            id="nomeCidade"
+            placeholder="Nome da Cidade"
+            required
+          />
+          <input type="text" id="estadoCidade" placeholder="Estado" required />
+          <input type="text" id="paisCidade" placeholder="País" required />
+          <input type="hidden" id="cidadeId" />
+          <button type="submit">Salvar</button>
+        </form>
 
+        <table id="cidadesTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Estado</th>
+              <th>País</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- As cidades serão inseridas aqui -->
+          </tbody>
+        </table>
+
+        <script type="module" src="../js/api-cidade.js"></script>
+        <script type="module" src="../js/script-cidade.js"></script>
+      </section>
+
+      <section id="aeroportos">
         <section id="aeroportos">
-            <section id="aeroportos">
-                <h2>Gerenciamento de Aeroportos</h2>
-                <form id="aeroportoForm">
-                    <h3>Adicionar Aeroporto</h3>
-                    <input type="text" id="nomeAeroporto" placeholder="Nome do Aeroporto" required>
-                    <input type="text" id="siglaAeroporto" placeholder="Sigla do Aeroporto" required>
-                    <input type="number" id="cidadeIdAeroporto" placeholder="ID da Cidade" required>
-                    <input type="hidden" id="aeroportoId">
-                    <button type="submit">Salvar</button>
-                </form>
-            
-                <table id="aeroportosTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Sigla</th>
-                            <th>ID da Cidade</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Os aeroportos serão inseridos aqui -->
-                    </tbody>
-                </table>
-            
-                <script type="module" src="../js/api-aeroporto.js"></script>
-                <script type="module" src="../js/script-aeroporto.js"></script>
-            </section>
-            
-        </section>
+          <h2>Gerenciamento de Aeroportos</h2>
+          <form id="aeroportoForm">
+            <h3>Adicionar Aeroporto</h3>
+            <input
+              type="text"
+              id="nomeAeroporto"
+              placeholder="Nome do Aeroporto"
+              required
+            />
+            <input
+              type="text"
+              id="siglaAeroporto"
+              placeholder="Sigla do Aeroporto"
+              required
+            />
+            <input
+              type="number"
+              id="cidadeIdAeroporto"
+              placeholder="ID da Cidade"
+              required
+            />
+            <input type="hidden" id="aeroportoId" />
+            <button type="submit">Salvar</button>
+          </form>
 
-        <section id="aeronaves">
-            <h2>Gerenciamento de Aeronaves</h2>
-            <form id="aeronaveForm">
-                <h3>Adicionar Aeronave</h3>
-                <input type="text" id="modeloAeronave" placeholder="Modelo da Aeronave" required>
-                <input type="text" id="numeroIdentificacao" placeholder="Número de Identificação" required>
-                <input type="text" id="fabricanteAeronave" placeholder="Fabricante" required>
-                <input type="number" id="anoFabricacao" placeholder="Ano de Fabricação" required>
-                <input type="number" id="qtdLinhas" placeholder="Quantidade de Linhas" required>
-                <input type="number" id="qtdColunas" placeholder="Quantidade de Colunas" required>
-                <input type="hidden" id="aeronaveId">
-                <button type="submit">Salvar</button>
-            </form>
-        
-            <table id="aeronavesTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Modelo</th>
-                        <th>Número de Identificação</th>
-                        <th>Fabricante</th>
-                        <th>Ano de Fabricação</th>
-                        <th>Layout (Linhas x Colunas)</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As aeronaves serão inseridas aqui -->
-                </tbody>
-            </table>
-        
-            <script type="module" src="../js/api-aeronave.js"></script>
-            <script type="module" src="../js/script-aeronave.js"></script>
-        </section>
-        
-        <section id="trechos">
-            <h2>Gerenciamento de Trechos</h2>
-            <form id="trechoForm">
-                <h3>Adicionar/Editar Trecho</h3>
-                <input type="number" id="origemIdTrecho" placeholder="ID do Aeroporto de Origem" required>
-                <input type="number" id="destinoIdTrecho" placeholder="ID do Aeroporto de Destino" required>
-                <input type="hidden" id="trechoId">
-                <button type="submit">Salvar</button>
-            </form>
-        
-            <table id="trechosTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>ID Origem</th>
-                        <th>ID Destino</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Os trechos serão inseridos aqui -->
-                </tbody>
-            </table>
-        
-            <script type="module" src="../js/api-trecho.js"></script>
-            <script type="module" src="../js/script-trecho.js"></script>
-        </section>
-        
+          <table id="aeroportosTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Sigla</th>
+                <th>ID da Cidade</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Os aeroportos serão inseridos aqui -->
+            </tbody>
+          </table>
 
-        <!-- Repetir para as outras tabelas (Aeronaves, Trechos, Voos, Assentos, Clientes, Reservas) -->
+          <script type="module" src="../js/api-aeroporto.js"></script>
+          <script type="module" src="../js/script-aeroporto.js"></script>
+        </section>
+      </section>
 
+      <section id="aeronaves">
+        <h2>Gerenciamento de Aeronaves</h2>
+        <form id="aeronaveForm">
+          <h3>Adicionar Aeronave</h3>
+          <input
+            type="text"
+            id="modeloAeronave"
+            placeholder="Modelo da Aeronave"
+            required
+          />
+          <input
+            type="text"
+            id="numeroIdentificacao"
+            placeholder="Número de Identificação"
+            required
+          />
+          <input
+            type="text"
+            id="fabricanteAeronave"
+            placeholder="Fabricante"
+            required
+          />
+          <input
+            type="number"
+            id="anoFabricacao"
+            placeholder="Ano de Fabricação"
+            required
+          />
+          <input
+            type="number"
+            id="qtdLinhas"
+            placeholder="Quantidade de Linhas"
+            required
+          />
+          <input
+            type="number"
+            id="qtdColunas"
+            placeholder="Quantidade de Colunas"
+            required
+          />
+          <input type="hidden" id="aeronaveId" />
+          <button type="submit">Salvar</button>
+        </form>
+
+        <table id="aeronavesTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Modelo</th>
+              <th>Número de Identificação</th>
+              <th>Fabricante</th>
+              <th>Ano de Fabricação</th>
+              <th>Layout (Linhas x Colunas)</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- As aeronaves serão inseridas aqui -->
+          </tbody>
+        </table>
+
+        <script type="module" src="../js/api-aeronave.js"></script>
+        <script type="module" src="../js/script-aeronave.js"></script>
+      </section>
+
+      <section id="trechos">
+        <h2>Gerenciamento de Trechos</h2>
+        <form id="trechoForm">
+          <h3>Adicionar/Editar Trecho</h3>
+          <input
+            type="number"
+            id="origemIdTrecho"
+            placeholder="ID do Aeroporto de Origem"
+            required
+          />
+          <input
+            type="number"
+            id="destinoIdTrecho"
+            placeholder="ID do Aeroporto de Destino"
+            required
+          />
+          <input type="hidden" id="trechoId" />
+          <button type="submit">Salvar</button>
+        </form>
+
+        <table id="trechosTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>ID Origem</th>
+              <th>ID Destino</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Os trechos serão inseridos aqui -->
+          </tbody>
+        </table>
+
+        <script type="module" src="../js/api-trecho.js"></script>
+        <script type="module" src="../js/script-trecho.js"></script>
+      </section>
+
+      <!-- Seção de Gerenciamento de Voos -->
+      <section id="voos">
+        <h2>Gerenciamento de Voos</h2>
+        <form id="vooForm">
+          <h3>Adicionar/Editar Voo</h3>
+          <input
+            type="number"
+            id="aeronaveIdVoo"
+            placeholder="ID da Aeronave"
+            required
+          />
+          <input
+            type="number"
+            id="trechoIdVoo"
+            placeholder="ID do Trecho"
+            required
+          />
+          <input
+            type="datetime-local"
+            id="dataHoraPartida"
+            placeholder="Data e Hora de Partida"
+            required
+          />
+          <input
+            type="datetime-local"
+            id="dataHoraChegada"
+            placeholder="Data e Hora de Chegada"
+            required
+          />
+          <input
+            type="number"
+            id="valorAssento"
+            placeholder="Valor do Assento"
+            required
+          />
+          <input type="hidden" id="vooId" />
+          <button type="submit">Salvar</button>
+        </form>
+
+        <table id="voosTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>ID Aeronave</th>
+              <th>ID Trecho</th>
+              <th>Partida</th>
+              <th>Chegada</th>
+              <th>Valor Assento</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Os voos serão inseridos aqui -->
+          </tbody>
+        </table>
+
+        <script type="module" src="../js/api-voo.js"></script>
+        <script type="module" src="../js/script-voo.js"></script>
+      </section>
+
+      <!-- Repetir para as outras tabelas (Aeronaves, Trechos, Voos, Assentos, Clientes, Reservas) -->
     </main>
 
     <footer>
-        <p>&copy; 2023 AirPlan - Todos os direitos reservados</p>
+      <p>&copy; 2023 AirPlan - Todos os direitos reservados</p>
     </footer>
 
-    <script src="../js/script-admin.js"></script> <!-- Caminho para seus arquivos JS -->
+    <script src="../js/script-admin.js"></script>
+    <!-- Caminho para seus arquivos JS -->
     <!-- Outros arquivos JS conforme necessário -->
-</body>
+  </body>
 </html>
