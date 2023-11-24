@@ -1,6 +1,10 @@
+/* Importando a fonte do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
 /* Estilos Gerais */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -99,7 +103,7 @@ form {
     border-radius: 5px;
 }
 
-input[type="text"], input[type="email"], select {
+input[type="text"], [type="number"], input[type="email"], select {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
@@ -123,3 +127,4 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #45a049;
 }
+
