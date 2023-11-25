@@ -45,9 +45,11 @@ async function getVooById(req, res) {
 async function createVoo(req, res) {
     let connection;
     const { AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento } = req.body;
+    console.log(req.body);
     try {
         connection = await db.openConnection();
-        const sql = `INSERT INTO Voos (AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento) VALUES (:AeronaveID, :TrechoID, TO_DATE(:DataHoraPartida, 'YYYY-MM-DD HH24:MI:SS'), TO_DATE(:DataHoraChegada, 'YYYY-MM-DD HH24:MI:SS'), :ValorAssento)`;
+        const sql = `INSERT INTO Voos (AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento) VALUES (:AeronaveID, :TrechoID, TO_TIMESTAMP_TZ(:DataHoraPartida, 'YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM'), TO_TIMESTAMP_TZ(:DataHoraChegada, 'YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM'), :ValorAssento)`;
+        console.log(sql);
         await connection.execute(sql, [AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento], { autoCommit: true });
         res.status(201).json({ message: 'Voo criado com sucesso' });
     } catch (error) {
