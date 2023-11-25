@@ -1,65 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Painel do Cliente - AirPlan</title>
-    <link rel="stylesheet" href="../css/style-cliente.css">
+    <link rel="stylesheet" href="../css/style-cliente.css" />
     <!-- Adicione aqui outros arquivos de estilo ou scripts se necessário -->
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Bem-vindo ao Painel do Cliente - AirPlan</h1>
+      <h1>Bem-vindo ao Painel do Cliente - AirPlan</h1>
     </header>
 
     <main>
-        <section id="busca-voo">
-            <h2>Buscar Voos</h2>
-            <form id="form-busca-voo">
-                <div class="input-group">
-                    <label for="cidade-origem">Cidade de Origem:</label>
-                    <select id="cidade-origem" name="cidade-origem" required>
-                        <!-- Opções de cidades de origem serão carregadas aqui -->
-                    </select>
-                </div>
+      <section id="busca-voo">
+        <h2>Buscar Voos</h2>
+        <form id="form-busca-voo">
+          <div class="input-group">
+            <label for="cidade-origem">Cidade de Origem:</label>
+            <input
+              type="text"
+              id="cidade-origem"
+              name="cidade-origem"
+              list="lista-cidades-origem"
+              required
+            />
+            <datalist id="lista-cidades-origem">
+              <!-- Opções de cidades de origem serão carregadas aqui -->
+            </datalist>
+          </div>
 
-                <div class="input-group">
-                    <label for="cidade-destino">Cidade de Destino:</label>
-                    <select id="cidade-destino" name="cidade-destino" required>
-                        <!-- Opções de cidades de destino serão carregadas aqui -->
-                    </select>
-                </div>
+          <div class="input-group">
+            <label for="cidade-destino">Cidade de Destino:</label>
+            <input
+              type="text"
+              id="cidade-destino"
+              name="cidade-destino"
+              list="lista-cidades-destino"
+              required
+            />
+            <datalist id="lista-cidades-destino">
+              <!-- Opções de cidades de destino serão carregadas aqui -->
+            </datalist>
+          </div>
 
-                <button type="submit">Buscar Voos</button>
-            </form>
-        </section>
+          <button type="submit">Buscar Voos</button>
+        </form>
+      </section>
 
-        <section id="lista-voos">
-            <h2>Voos Disponíveis</h2>
-            <table id="tabela-voos">
-                <thead>
-                    <tr>
-                        <th>Voo ID</th>
-                        <th>Origem</th>
-                        <th>Destino</th>
-                        <th>Partida</th>
-                        <th>Chegada</th>
-                        <th>Preço</th>
-                        <!-- Outras colunas conforme necessário -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Lista de voos será inserida aqui -->
-                </tbody>
-            </table>
-        </section>
+      <section id="lista-voos">
+        <h2>Voos Disponíveis</h2>
+        <table id="tabela-voos">
+          <thead>
+            <tr>
+              <th>Voo ID</th>
+              <th>Origem</th>
+              <th>Destino</th>
+              <th>Partida</th>
+              <th>Chegada</th>
+              <th>Preço</th>
+              <!-- Outras colunas conforme necessário -->
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Lista de voos será inserida aqui -->
+          </tbody>
+        </table>
+      </section>
     </main>
 
     <footer>
-        <p>&copy; 2023 AirPlan - Todos os direitos reservados</p>
+      <p>&copy; 2023 AirPlan - Todos os direitos reservados</p>
     </footer>
 
     <script src="path/to/your/js/script.js"></script>
     <!-- Adicione aqui outros scripts se necessário -->
-</body>
+  </body>
 </html>
