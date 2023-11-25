@@ -123,10 +123,6 @@ a.button1{
     transition: all 0.2s;
 }
 
-#cliente {
-    cursor:not-allowed;
-}
-
 a.button1:hover{
     color:#000000;
     background-color:#FFFFFF;
