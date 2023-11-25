@@ -90,10 +90,17 @@ CREATE TABLE Reservas (
     CONSTRAINT fk_Reservas_Assentos FOREIGN KEY (AssentoID) REFERENCES Assentos(AssentoID)
 );
 
-CREATE OR REPLACE TRIGGER CreateSeatsAfterAeronaveInsert
-AFTER INSERT ON Aeronaves
+CREATE OR REPLACE TRIGGER ManageSeatsAfterAeronaveChange
+AFTER INSERT OR UPDATE OF QtdLinhas, QtdColunas ON Aeronaves
 FOR EACH ROW
 BEGIN
+    -- Se for um UPDATE e houver mudança nas linhas ou colunas
+    IF UPDATING AND (:NEW.QtdLinhas != :OLD.QtdLinhas OR :NEW.QtdColunas != :OLD.QtdColunas) THEN
+        -- Exclui todos os assentos existentes para essa aeronave
+        DELETE FROM Assentos WHERE AeronaveID = :NEW.AeronaveID;
+    END IF;
+
+    -- Lógica para criar novos assentos tanto para INSERT quanto para UPDATE
     FOR i IN 1..:NEW.QtdLinhas LOOP
         FOR j IN 1..:NEW.QtdColunas LOOP
             INSERT INTO Assentos (AeronaveID, CodigoAssento, Linha, Coluna)
@@ -101,3 +108,5 @@ BEGIN
         END LOOP;
     END LOOP;
 END;
+
+
