@@ -19,6 +19,37 @@ async function getAllVoos(req, res) {
     }
 }
 
+async function getVoosComDetalhes(req, res) {
+    let connection;
+    try {
+        connection = await db.openConnection();
+        const sql = `SELECT
+                        v.VooID,
+                        c1.Nome AS CidadeOrigem,
+                        c2.Nome AS CidadeDestino,
+                        v.DataHoraPartida,
+                        v.DataHoraChegada,
+                        v.ValorAssento
+                     FROM Voos v
+                     JOIN Trechos t ON v.TrechoID = t.TrechoID
+                     JOIN Aeroportos a1 ON t.OrigemID = a1.AeroportoID
+                     JOIN Aeroportos a2 ON t.DestinoID = a2.AeroportoID
+                     JOIN Cidades c1 ON a1.CidadeID = c1.CidadeID
+                     JOIN Cidades c2 ON a2.CidadeID = c2.CidadeID`;
+        const result = await connection.execute(sql, [], {
+            outFormat: oracledb.OUT_FORMAT_OBJECT
+        });
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Erro ao obter voos com detalhes', error);
+        res.status(500).send('Erro ao obter voos com detalhes');
+    } finally {
+        if (connection) {
+            await db.closeConnection(connection);
+        }
+    }
+}
+
 async function getVooById(req, res) {
     let connection;
     const { id } = req.params;
@@ -109,6 +140,7 @@ async function deleteVoo(req, res) {
 
 module.exports = {
     getAllVoos,
+    getVoosComDetalhes,
     getVooById,
     createVoo,
     updateVoo,

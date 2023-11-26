@@ -5,6 +5,8 @@ const router = express.Router();
 // Rota para buscar todos os voos
 router.get('/', vooController.getAllVoos);
 
+router.get('/detalhes', vooController.getVoosComDetalhes);
+
 // Rota para buscar um voo específico pelo ID
 router.get('/:id', vooController.getVooById);
 
