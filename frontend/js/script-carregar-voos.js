@@ -1,33 +1,39 @@
-// Importações das funções da API (Certifique-se de que elas estão corretamente implementadas)
-import { getCidades, getVoos } from './api-voo.js';
+// script-carregar-voos.js
 
-// Selecionar elementos do DOM
-const cidadeOrigemInput = document.querySelector('#cidade-origem');
-const cidadeDestinoInput = document.querySelector('#cidade-destino');
-const voosTableBody = document.querySelector('#tabela-voos tbody');
-const formBuscaVoo = document.querySelector('#form-busca-voo');
+document.addEventListener('DOMContentLoaded', function() {
+    // Carregar as cidades quando a página for carregada
+    carregarCidades();
 
-// Carregar cidades nas opções de origem e destino
+    // Configurar o evento de envio do formulário de busca de voos
+    const formBuscaVoo = document.getElementById('form-busca-voo');
+    formBuscaVoo.addEventListener('submit', function(event) {
+        event.preventDefault();
+        buscarVoos();
+    });
+
+    // Carregar todos os voos inicialmente
+    carregarTodosVoos();
+});
+
 function carregarCidades() {
-    getCidades()
+    axios.get('http://localhost:3000/cidades')
         .then(response => {
             const cidades = response.data;
-            cidades.forEach(cidade => {
-                const optionOrigem = document.createElement('option');
-                optionOrigem.value = cidade.Nome;
-                cidadeOrigemInput.appendChild(optionOrigem);
+            const listaCidadesOrigem = document.getElementById('lista-cidades-origem');
+            const listaCidadesDestino = document.getElementById('lista-cidades-destino');
 
-                const optionDestino = document.createElement('option');
-                optionDestino.value = cidade.Nome;
-                cidadeDestinoInput.appendChild(optionDestino);
+            cidades.forEach(cidade => {
+                const optionOrigem = new Option(cidade.Nome, cidade.Nome);
+                const optionDestino = new Option(cidade.Nome, cidade.Nome);
+                listaCidadesOrigem.appendChild(optionOrigem);
+                listaCidadesDestino.appendChild(optionDestino);
             });
         })
         .catch(error => console.error('Erro ao carregar cidades:', error));
 }
 
-// Carregar todos os voos inicialmente
 function carregarTodosVoos() {
-    getVoos()
+    axios.get('http://localhost:3000/voos/detalhes')
         .then(response => {
             const voos = response.data;
             atualizarTabelaVoos(voos);
@@ -35,56 +41,44 @@ function carregarTodosVoos() {
         .catch(error => console.error('Erro ao carregar voos:', error));
 }
 
-// Buscar voos com base na origem e destino
-function buscarVoos(origem, destino) {
-    getVoos()
+function buscarVoos() {
+    const origem = document.getElementById('cidade-origem').value;
+    const destino = document.getElementById('cidade-destino').value;
+
+    axios.get(`http://localhost:3000/consultaVoos/buscar?origem=${origem}&destino=${destino}`)
         .then(response => {
-            const voosFiltrados = response.data.filter(voo => 
-                voo.origem.includes(origem) && voo.destino.includes(destino)
-            );
-            atualizarTabelaVoos(voosFiltrados);
+            const voos = response.data;
+            atualizarTabelaVoos(voos);
         })
         .catch(error => console.error('Erro ao buscar voos:', error));
 }
 
-// Atualizar a tabela de voos
 function atualizarTabelaVoos(voos) {
+    const voosTableBody = document.querySelector('#tabela-voos tbody');
     voosTableBody.innerHTML = '';
+
     voos.forEach(voo => {
-        const row = createTableRow(voo);
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${voo.CIDADEORIGEM}</td>
+            <td>${voo.CIDADEDESTINO}</td>
+            <td>${formatarDataHora(voo.DATAHORAPARTIDA)}</td>
+            <td>${formatarDataHora(voo.DATAHORACHEGADA)}</td>
+            <td>${voo.VALORASSENTO}</td>
+        `;
+
+        // Adicionando evento de clique na linha
+        row.addEventListener('click', () => {
+            window.location.href = `/caminho-para-pagina-de-compra?vooId=${voo.VOOID}`;
+        });
+
         voosTableBody.appendChild(row);
     });
 }
 
-// Função para criar linhas da tabela com os dados dos voos
-function createTableRow(voo) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${voo.origem}</td>
-        <td>${voo.destino}</td>
-        <td>${formatarDataHora(voo.partida)}</td>
-        <td>${formatarDataHora(voo.chegada)}</td>
-        <td>${voo.preco}</td>
-    `;
-    return row;
-}
 
-// Função para formatar data e hora
 function formatarDataHora(dataHora) {
     const data = new Date(dataHora);
-    return data.toLocaleString(); // Converte para formato local de data e hora
+    return data.toLocaleString();
 }
 
-// Evento de envio do formulário de busca de voos
-formBuscaVoo.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const origem = cidadeOrigemInput.value;
-    const destino = cidadeDestinoInput.value;
-    buscarVoos(origem, destino);
-});
-
-// Inicializar a página
-document.addEventListener('DOMContentLoaded', function() {
-    carregarCidades();
-    carregarTodosVoos();
-});
