@@ -69,12 +69,13 @@ function atualizarTabelaVoos(voos) {
 
         // Adicionando evento de clique na linha
         row.addEventListener('click', () => {
-            window.location.href = `/caminho-para-pagina-de-compra?vooId=${voo.VOOID}`;
+            window.location.href = `compra.html?vooId=${voo.VOOID}`;
         });
 
         voosTableBody.appendChild(row);
     });
 }
+
 
 
 function formatarDataHora(dataHora) {
