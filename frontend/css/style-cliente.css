@@ -97,30 +97,3 @@ footer {
     color: #fff;
 }
 
-
-#assentos-disponiveis {
-    margin-top: 20px;
-  }
-  
-  #mapa-assentos {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
-  }
-  
-  .assento {
-    width: 40px;
-    height: 40px;
-    background-color: #bdc3c7;
-    border: 1px solid #34495e;
-    text-align: center;
-    line-height: 40px;
-    cursor: pointer;
-  }
-  
-  .assento.disponivel {
-    background-color: #2ecc71;
-    color: #fff;
-  }
-  
-
