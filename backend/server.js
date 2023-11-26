@@ -4,7 +4,8 @@ const cidadeRoutes = require('./api/routes/cidadeRoutes');
 const aeroportoRoutes = require('./api/routes/aeroportoRoutes');
 const aeronaveRoutes = require('./api/routes/aeronaveRoutes');
 const trechoRoutes = require('./api/routes/trechoRoutes');      
-const vooRoutes = require('./api/routes/vooRoutes');            
+const vooRoutes = require('./api/routes/vooRoutes');     
+const consultaVooRouter = require('./api/routes/consultaVooRouter');  
 /* const assentoRoutes = require('./api/routes/assentoRoutes');    
 const clienteRoutes = require('./api/routes/clienteRoutes');    
 const reservaRoutes = require('./api/routes/reservaRoutes'); */
@@ -23,7 +24,8 @@ app.use('/cidades', cidadeRoutes);
 app.use('/aeroportos', aeroportoRoutes);
 app.use('/aeronaves', aeronaveRoutes);   
 app.use('/trechos', trechoRoutes);       
-app.use('/voos', vooRoutes);             
+app.use('/voos', vooRoutes);
+app.use('/consultaVoos', consultaVooRouter); // Rota para a consulta de voos
 /* app.use('/assentos', assentoRoutes);     
 app.use('/clientes', clienteRoutes);     
 app.use('/reservas', reservaRoutes);  */
