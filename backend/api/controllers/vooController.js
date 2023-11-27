@@ -73,6 +73,27 @@ async function getVooById(req, res) {
     }
 }
 
+async function getAssentosReservadosVoo(req, res) {
+    let connection;
+    const { vooId } = req.params;
+    try {
+        connection = await db.openConnection();
+        const sql = `
+            SELECT AssentoID FROM Reservas
+            WHERE VooID = :vooId
+        `;
+        const result = await connection.execute(sql, [vooId], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Erro ao obter assentos reservados do voo:', error);
+        res.status(500).send('Erro ao obter assentos reservados do voo');
+    } finally {
+        if (connection) {
+            await db.closeConnection(connection);
+        }
+    }
+}
+
 async function createVoo(req, res) {
     let connection;
     const { AeronaveID, TrechoID, DataHoraPartida, DataHoraChegada, ValorAssento } = req.body;
@@ -142,6 +163,7 @@ module.exports = {
     getAllVoos,
     getVoosComDetalhes,
     getVooById,
+    getAssentosReservadosVoo,
     createVoo,
     updateVoo,
     deleteVoo
