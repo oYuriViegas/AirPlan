@@ -28,25 +28,38 @@ async function createReserva(req, res) {
     const { VooID, ClienteID, Assentos, Status } = req.body;
     try {
         connection = await db.openConnection();
-        
-        // Iniciar uma transação
-        await connection.execute(`BEGIN TRANSACTION`);
-        
-        // Aqui você deve inserir a lógica para verificar se os assentos estão disponíveis
-        // e então criar a reserva
 
-        // Exemplo de como inserir uma reserva
-        const sql = `INSERT INTO Reservas (VooID, ClienteID, AssentoID, Status) VALUES (:VooID, :ClienteID, :AssentoID, :Status)`;
-        // Supondo que Assentos é um array de IDs de assentos
+        // Verificar se os assentos estão disponíveis
+        const assentosIndisponiveis = [];
         for (const AssentoID of Assentos) {
-            await connection.execute(sql, { VooID, ClienteID, AssentoID, Status }, { autoCommit: false });
+            const checkSql = `SELECT 1 FROM Reservas WHERE AssentoID = :AssentoID AND VooID = :VooID AND Status = 'Reservado'`;
+            const result = await connection.execute(checkSql, [AssentoID, VooID], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+            if (result.rows.length > 0) {
+                assentosIndisponiveis.push(AssentoID);
+            }
+        }
+
+        // Se houver assentos indisponíveis, não continuar com a reserva
+        if (assentosIndisponiveis.length > 0) {
+            res.status(400).json({ message: 'Os seguintes assentos não estão disponíveis', assentos: assentosIndisponiveis });
+            return;
+        }
+
+        // Iniciar uma transação
+        await connection.execute(`BEGIN`);
+
+        // Inserir reserva para cada assento
+        const sql = `INSERT INTO Reservas (VooID, ClienteID, AssentoID, Status) VALUES (:VooID, :ClienteID, :AssentoID, :Status)`;
+        for (const AssentoID of Assentos) {
+            await connection.execute(sql, [VooID, ClienteID, AssentoID, Status], { autoCommit: false });
         }
 
         // Finalizar a transação
         await connection.execute(`COMMIT`);
-        
+
         res.status(201).json({ message: 'Reserva criada com sucesso' });
     } catch (error) {
+        // Desfazer a transação em caso de erro
         await connection.execute(`ROLLBACK`);
         console.error('Erro ao criar reserva:', error);
         res.status(500).json({ message: 'Erro ao criar reserva' });
@@ -56,6 +69,7 @@ async function createReserva(req, res) {
         }
     }
 }
+
 
 // Função para obter uma reserva específica pelo ID
 async function getReservaById(req, res) {
