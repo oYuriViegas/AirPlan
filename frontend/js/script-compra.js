@@ -11,12 +11,15 @@ function carregarAssentos(vooId) {
     axios.get(`http://localhost:3000/voos/${vooId}`)
         .then(response => {
             const aeronaveId = response.data.AERONAVEID;
-            return axios.get(`http://localhost:3000/aeronaves/${aeronaveId}`);
+            return Promise.all([
+                axios.get(`http://localhost:3000/aeronaves/${aeronaveId}`),
+                axios.get(`http://localhost:3000/assentos/aeronave/${aeronaveId}`)
+            ]);
         })
-        .then(response => {
-            const { QTDLINHAS, QTDCOLUNAS } = response.data;
-            console.log(QTDLINHAS, QTDCOLUNAS);
-            gerarMapaAssentos(QTDLINHAS, QTDCOLUNAS);
+        .then(([responseAeronave, responseAssentos]) => {
+            const { QtdLinhas, QtdColunas } = responseAeronave.data;
+            const mapaAssentos = criarMapaAssentos(responseAssentos.data);
+            gerarMapaAssentos(QtdLinhas, QtdColunas, mapaAssentos);
             return axios.get(`http://localhost:3000/voos/${vooId}/assentosReservados`);
         })
         .then(response => {
@@ -25,26 +28,36 @@ function carregarAssentos(vooId) {
         .catch(error => console.error('Erro ao carregar assentos:', error));
 }
 
-function gerarMapaAssentos(qtdLinhas, qtdColunas) {
+function criarMapaAssentos(assentos) {
+    const mapa = {};
+    assentos.forEach(assento => {
+        mapa[assento.CodigoAssento] = assento.AssentoID;
+    });
+    return mapa;
+}
+
+function gerarMapaAssentos(qtdLinhas, qtdColunas, mapaAssentos) {
     const assentosContainer = document.getElementById('assentos-container');
-    assentosContainer.innerHTML = ''; // Limpa o container para novos assentos
+    assentosContainer.innerHTML = '';
 
     for (let linha = 1; linha <= qtdLinhas; linha++) {
         const linhaAssentos = document.createElement('div');
         linhaAssentos.className = 'linha-assentos';
 
         for (let coluna = 1; coluna <= qtdColunas; coluna++) {
+            const codigoAssento = String.fromCharCode(64 + linha) + coluna;
             const assento = document.createElement('div');
             assento.className = 'assento';
-            assento.dataset.assento = String.fromCharCode(64 + linha) + coluna; // Ex: A1, B2, etc.
+            assento.dataset.assento = codigoAssento;
+            assento.dataset.assentoId = mapaAssentos[codigoAssento];
             assento.addEventListener('click', selecionarAssento);
-
             linhaAssentos.appendChild(assento);
         }
 
         assentosContainer.appendChild(linhaAssentos);
     }
 }
+
 
 
 function marcarAssentosReservados(assentosReservados) {
