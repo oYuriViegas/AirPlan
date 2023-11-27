@@ -72,7 +72,59 @@ async function reservarAssento(req, res) {
     }
 }
 
+
+// Função para buscar AssentoID
+async function getAssentoId(req, res) {
+    let connection;
+    try {
+        const { aeronaveId, codigoAssento } = req.params;
+        connection = await db.openConnection();
+        const sql = `SELECT AssentoID FROM Assentos WHERE AeronaveID = :aeronaveId AND CodigoAssento = :codigoAssento`;
+        const result = await connection.execute(sql, [aeronaveId, codigoAssento], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+
+        if (result.rows.length > 0) {
+            res.json(result.rows[0]);
+        } else {
+            res.status(404).send('Assento não encontrado');
+        }
+    } catch (error) {
+        console.error('Erro ao buscar AssentoID:', error);
+        res.status(500).send('Erro ao buscar AssentoID');
+    } finally {
+        if (connection) {
+            await db.closeConnection(connection);
+        }
+    }
+}
+
+// Função para obter todos os assentos de uma aeronave específica
+async function getAssentosByAeronaveId(req, res) {
+    let connection;
+    try {
+        connection = await db.openConnection();
+        const aeronaveId = req.params.aeronaveId; // Pegar o ID da aeronave dos parâmetros da rota
+
+        const result = await connection.execute(
+            `SELECT * FROM Assentos WHERE AeronaveID = :aeronaveId`,
+            [aeronaveId], // Usar o ID da aeronave na consulta
+            { outFormat: oracledb.OUT_FORMAT_OBJECT }
+        );
+
+        // Enviar os assentos encontrados como resposta
+        res.json(result.rows);
+    } catch (error) {
+        console.error(`Erro ao obter assentos para a aeronave com ID ${aeronaveId}:`, error);
+        res.status(500).send('Erro ao obter assentos');
+    } finally {
+        if (connection) {
+            await db.closeConnection(connection);
+        }
+    }
+}
+
 module.exports = {
     getAssentosDisponiveis,
+    getAssentoId,
+    getAssentosByAeronaveId,
     reservarAssento
 };

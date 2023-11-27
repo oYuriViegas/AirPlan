@@ -11,6 +11,9 @@ router.get('/:id', clienteController.getClienteById);
 // Rota para criar um novo cliente
 router.post('/', clienteController.createCliente);
 
+// Rota para criar um novo cliente ou obter um cliente existente
+router.post('/', clienteController.createOrGetCliente);
+
 // Rota para atualizar um cliente existente
 router.put('/:id', clienteController.updateCliente);
 

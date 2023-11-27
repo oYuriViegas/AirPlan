@@ -1,0 +1,40 @@
+/* Estilos para o mapa de assentos */
+
+.assentos-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.linha-assentos {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.assento {
+    width: 30px;
+    height: 30px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.assento:last-child {
+    margin-right: 0;
+}
+
+.assento.selecionado {
+    background-color: #4caf50; /* Cor verde para assentos selecionados */
+}
+
+.assento.reservado {
+    background-color: #f44336; /* Cor vermelha para assentos reservados */
+    cursor: not-allowed;
+}

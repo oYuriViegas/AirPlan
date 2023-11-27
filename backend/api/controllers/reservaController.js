@@ -25,14 +25,16 @@ async function getAllReservas(req, res) {
 // Função para criar uma nova reserva
 async function createReserva(req, res) {
     let connection;
-    const { VooID, ClienteID, Assentos, Status } = req.body;
+    const { VooID, ClienteID, Assentos } = req.body; // Removido o Status
+    console.log(req.body);
+    console.log(VooID, ClienteID, AssentosID);
     try {
         connection = await db.openConnection();
 
         // Verificar se os assentos estão disponíveis
         const assentosIndisponiveis = [];
         for (const AssentoID of Assentos) {
-            const checkSql = `SELECT 1 FROM Reservas WHERE AssentoID = :AssentoID AND VooID = :VooID AND Status = 'Reservado'`;
+            const checkSql = `SELECT 1 FROM Reservas WHERE AssentoID = :AssentoID AND VooID = :VooID`;
             const result = await connection.execute(checkSql, [AssentoID, VooID], { outFormat: oracledb.OUT_FORMAT_OBJECT });
             if (result.rows.length > 0) {
                 assentosIndisponiveis.push(AssentoID);
@@ -49,9 +51,9 @@ async function createReserva(req, res) {
         await connection.execute(`BEGIN`);
 
         // Inserir reserva para cada assento
-        const sql = `INSERT INTO Reservas (VooID, ClienteID, AssentoID, Status) VALUES (:VooID, :ClienteID, :AssentoID, :Status)`;
+        const sql = `INSERT INTO Reservas (VooID, ClienteID, AssentoID) VALUES (:VooID, :ClienteID, :AssentoID)`;
         for (const AssentoID of Assentos) {
-            await connection.execute(sql, [VooID, ClienteID, AssentoID, Status], { autoCommit: false });
+            await connection.execute(sql, [VooID, ClienteID, AssentoID], { autoCommit: false });
         }
 
         // Finalizar a transação

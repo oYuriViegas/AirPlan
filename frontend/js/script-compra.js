@@ -14,9 +14,9 @@ function carregarAssentos(vooId) {
             return axios.get(`http://localhost:3000/aeronaves/${aeronaveId}`);
         })
         .then(response => {
-            const { QTDLINHAS, QTDCOLUNAS } = response.data;
-            console.log(QTDLINHAS, QTDCOLUNAS);
-            gerarMapaAssentos(QTDLINHAS, QTDCOLUNAS);
+            console.log(response);
+            const { AERONAVEID, QTDLINHAS, QTDCOLUNAS } = response.data;
+            gerarMapaAssentos(AERONAVEID);
             return axios.get(`http://localhost:3000/voos/${vooId}/assentosReservados`);
         })
         .then(response => {
@@ -25,25 +25,59 @@ function carregarAssentos(vooId) {
         .catch(error => console.error('Erro ao carregar assentos:', error));
 }
 
-function gerarMapaAssentos(qtdLinhas, qtdColunas) {
+function gerarMapaAssentos(aeronaveId) {
+    // Primeiro, buscar todos os assentos da aeronave especificada
+    console.log(aeronaveId);
+    axios.get(`http://localhost:3000/assentos/aeronave/${aeronaveId}`)
+        .then(response => {
+            const assentosAeronave = response.data;
+            desenharMapaAssentos(assentosAeronave);
+        })
+        .catch(error => {
+            console.error('Erro ao carregar assentos da aeronave:', error);
+        });
+}
+
+function desenharMapaAssentos(assentosAeronave) {
     const assentosContainer = document.getElementById('assentos-container');
     assentosContainer.innerHTML = ''; // Limpa o container para novos assentos
 
-    for (let linha = 1; linha <= qtdLinhas; linha++) {
-        const linhaAssentos = document.createElement('div');
-        linhaAssentos.className = 'linha-assentos';
+    assentosAeronave.forEach(assento => {
+        const linha = assento.Linha;
+        const coluna = assento.Coluna;
+        const codigoAssento = assento.CodigoAssento;
+        const assentoId = assento.AssentoID;
 
-        for (let coluna = 1; coluna <= qtdColunas; coluna++) {
-            const assento = document.createElement('div');
-            assento.className = 'assento';
-            assento.dataset.assento = String.fromCharCode(64 + linha) + coluna; // Ex: A1, B2, etc.
-            assento.addEventListener('click', selecionarAssento);
-
-            linhaAssentos.appendChild(assento);
+        let linhaAssentos = document.querySelector(`.linha-assentos[data-linha='${linha}']`);
+        if (!linhaAssentos) {
+            linhaAssentos = document.createElement('div');
+            linhaAssentos.className = 'linha-assentos';
+            linhaAssentos.dataset.linha = linha;
+            assentosContainer.appendChild(linhaAssentos);
         }
 
-        assentosContainer.appendChild(linhaAssentos);
-    }
+        const assentoElement = document.createElement('div');
+        assentoElement.className = 'assento';
+        assentoElement.textContent = codigoAssento; // Opcional: Mostrar o código do assento
+        assentoElement.dataset.assento = codigoAssento;
+        assentoElement.dataset.assentoId = assentoId;
+
+        assentoElement.addEventListener('click', selecionarAssento);
+        linhaAssentos.appendChild(assentoElement);
+    });
+}
+
+
+function buscarAssentoId(aeronaveId, codigoAssento, callback) {
+    axios.get(`http://localhost:3000/assentos/${aeronaveId}/${codigoAssento}`)
+        .then(response => {
+            if (response.data && response.data.AssentoID) {
+                callback(response.data.AssentoID);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao buscar ID do assento:', error);
+        });
 }
 
 
@@ -78,26 +112,33 @@ function configurarFormularioPagamento() {
 function processarCompra() {
     const nomeCompleto = document.getElementById('nome-completo').value;
     const email = document.getElementById('email').value;
-    const formaPagamento = document.getElementById('forma-pagamento').value;
-    const assentosSelecionados = document.querySelectorAll('.assento.selecionado');
     const vooId = new URLSearchParams(window.location.search).get('vooId');
+    const assentosSelecionados = document.querySelectorAll('.assento.selecionado');
 
     // Converter NodeList para array de códigos de assento
     const assentos = Array.from(assentosSelecionados).map(assento => assento.dataset.assento);
+    
+    // Primeiro, criar ou obter o ClienteID
+    axios.post('http://localhost:3000/clientes', { nome: nomeCompleto, email: email })
+        .then(responseCliente => {
+            const ClienteID = responseCliente.data.CLIENTEID;
+            console.log(responseCliente);
+            console.log(vooId, ClienteID, assentos);
 
-    axios.post('http://localhost:3000/reservas', {
-        vooId: vooId,
-        nome: nomeCompleto,
-        email: email,
-        assentos: assentos,
-        formaPagamento: formaPagamento
-    })
-    .then(response => {
-        alert('Sua passagem aérea foi emitida e enviada para seu endereço de email.');
-        window.location.href = '/algum-caminho-para-confirmacao';
-    })
-    .catch(error => {
-        alert('Houve um erro ao processar sua compra. Por favor, tente novamente.');
-        console.error('Erro ao processar compra:', error);
-    });
+            // Agora, criar a reserva com os assentos selecionados
+            return axios.post('http://localhost:3000/reservas', {
+                VooID: vooId,
+                ClienteID: ClienteID,
+                Assentos: assentos
+            });
+        })
+        .then(responseReserva => {
+            alert('Sua passagem aérea foi emitida e enviada para seu endereço de email.');
+            window.location.href = '/algum-caminho-para-confirmacao';
+        })
+        .catch(error => {
+            alert('Houve um erro ao processar sua compra. Por favor, tente novamente.');
+            console.error('Erro ao processar compra:', error);
+        });
 }
+

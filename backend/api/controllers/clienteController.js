@@ -51,12 +51,29 @@ async function getClienteById(req, res) {
 // Função para criar um novo cliente
 async function createCliente(req, res) {
     let connection;
-    const { Nome, Email } = req.body;
+    const { nome, email } = req.body;
+    
     try {
         connection = await db.openConnection();
-        const sql = `INSERT INTO Clientes (Nome, Email) VALUES (:Nome, :Email)`;
-        await connection.execute(sql, [Nome, Email], { autoCommit: true });
-        res.status(201).json({ message: 'Cliente criado com sucesso' });
+
+        // Verifique primeiro se já existe um cliente com esse email
+        const checkSql = `SELECT ClienteID FROM Clientes WHERE Email = :email`;
+        const checkResult = await connection.execute(checkSql, [email], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+        
+        if (checkResult.rows.length > 0) {
+            // Cliente já existe, então retorne os dados do cliente existente
+            res.json(checkResult.rows[0]);
+        } else {
+            // Cliente não existe, insira um novo
+            const insertSql = `INSERT INTO Clientes (Nome, Email) VALUES (:nome, :email) RETURNING ClienteID INTO :ClienteID`;
+            const result = await connection.execute(insertSql, 
+                { nome: nome, email: email, ClienteID: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT } },
+                { autoCommit: true }
+            );
+            
+            // Retorna o novo ClienteID
+            res.status(201).json({ ClienteID: result.outBinds.ClienteID[0] });
+        }
     } catch (error) {
         console.error('Erro ao criar cliente:', error);
         res.status(500).json({ message: 'Erro ao criar cliente' });
@@ -66,6 +83,49 @@ async function createCliente(req, res) {
         }
     }
 }
+
+
+async function createOrGetCliente(req, res) {
+    let connection;
+    const { nome, email } = req.body;
+
+    try {
+        connection = await db.openConnection();
+
+        // Verificar se o cliente já existe
+        let result = await connection.execute(
+            `SELECT ClienteID FROM Clientes WHERE Email = :email`,
+            [email],
+            { outFormat: oracledb.OUT_FORMAT_OBJECT }
+        );
+
+        let ClienteID;
+
+        if (result.rows.length > 0) {
+            // Cliente já existe, use o ClienteID existente
+            ClienteID = result.rows[0].ClienteID;
+        } else {
+            // Cliente não existe, crie um novo
+            result = await connection.execute(
+                `INSERT INTO Clientes (Nome, Email) VALUES (:nome, :email) RETURNING ClienteID INTO :ClienteID`,
+                { nome: nome, email: email, ClienteID: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER } },
+                { autoCommit: true }
+            );
+
+            ClienteID = result.outBinds.ClienteID[0];
+        }
+
+        res.json({ ClienteID: ClienteID });
+    } catch (error) {
+        console.error('Erro ao criar ou obter cliente:', error);
+        res.status(500).json({ message: 'Erro ao criar ou obter cliente' });
+    } finally {
+        if (connection) {
+            await db.closeConnection(connection);
+        }
+    }
+}
+
 
 // Função para atualizar um cliente existente
 async function updateCliente(req, res) {
@@ -118,6 +178,7 @@ module.exports = {
     getAllClientes,
     getClienteById,
     createCliente,
+    createOrGetCliente,
     updateCliente,
     deleteCliente
 };
