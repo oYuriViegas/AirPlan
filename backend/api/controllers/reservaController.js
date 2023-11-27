@@ -25,7 +25,7 @@ async function getAllReservas(req, res) {
 // Função para criar uma nova reserva
 async function createReserva(req, res) {
     let connection;
-    const { VooID, ClienteID, Assentos } = req.body; // Removido o Status
+    const { VooID, ClienteID, AssentosID } = req.body; // Removido o Status
     console.log(req.body);
     console.log(VooID, ClienteID, AssentosID);
     try {
