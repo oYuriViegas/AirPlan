@@ -26,32 +26,39 @@ async function getAllAeronaves(req, res) {
 }
 
 // Função para obter uma única aeronave pelo ID
+// No arquivo aeronaveController.js
+
 async function getAeronaveById(req, res) {
   let connection;
-  const { id } = req.params;
   try {
-    connection = await db.openConnection();
-    const result = await connection.execute(`SELECT * FROM Aeronaves WHERE AeronaveID = :id`, [id], {
-      outFormat: oracledb.OUT_FORMAT_OBJECT,
-    });
-    if (result.rows.length > 0) {
-      res.json(result.rows[0]);
-    } else {
-      res.status(404).send('Aeronave não encontrada');
-    }
-  } catch (error) {
-    console.error(`Erro ao obter a aeronave com ID ${id}`, error);
-    res.status(500).send('Erro ao obter aeronave');
-  } finally {
-    if (connection) {
-      try {
-        await db.closeConnection(connection);
-      } catch (error) {
-        console.error('Erro ao fechar a conexão', error);
+      const id = parseInt(req.params.id); // Certifique-se de que o ID é um número
+
+      if (isNaN(id)) {
+          return res.status(400).send('ID inválido');
       }
-    }
+
+      connection = await db.openConnection();
+      const result = await connection.execute(
+          `SELECT * FROM Aeronaves WHERE AeronaveID = :id`,
+          [id],
+          { outFormat: oracledb.OUT_FORMAT_OBJECT }
+      );
+
+      if (result.rows.length > 0) {
+          res.json(result.rows[0]);
+      } else {
+          res.status(404).send('Aeronave não encontrada');
+      }
+  } catch (error) {
+      console.error('Erro ao obter a aeronave com ID', id, error);
+      res.status(500).send('Erro ao obter aeronave');
+  } finally {
+      if (connection) {
+          await db.closeConnection(connection);
+      }
   }
 }
+
 
 // Função para adicionar uma nova aeronave
 async function createAeronave(req, res) {
