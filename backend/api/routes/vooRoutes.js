@@ -10,6 +10,9 @@ router.get('/detalhes', vooController.getVoosComDetalhes);
 // Rota para buscar um voo específico pelo ID
 router.get('/:id', vooController.getVooById);
 
+// Rota para obter assentos reservados de um voo específico
+router.get('/:vooId/assentosReservados', vooController.getAssentosReservadosVoo);
+
 // Rota para criar um novo voo
 router.post('/', vooController.createVoo);
 
