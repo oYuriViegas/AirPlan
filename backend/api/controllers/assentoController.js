@@ -99,9 +99,12 @@ async function getAssentoId(req, res) {
 
 // Função para obter todos os assentos de uma aeronave específica
 async function getAssentosByAeronaveId(req, res) {
+    console.log("Entrou na função")
     let connection;
     try {
         connection = await db.openConnection();
+        const params = req.params;
+        console.log(params);
         const aeronaveId = req.params.aeronaveId; // Pegar o ID da aeronave dos parâmetros da rota
 
         const result = await connection.execute(

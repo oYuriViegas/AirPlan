@@ -7,57 +7,50 @@ document.addEventListener('DOMContentLoaded', function () {
     configurarFormularioPagamento();
 });
 
-function carregarAssentos(vooId) {
-    axios.get(`http://localhost:3000/voos/${vooId}`)
-        .then(response => {
+ function carregarAssentos(vooId) {
+    const baseUrl = "http://localhost:3000";
+    axios.get(`${baseUrl}/voos/${vooId}`)
+        .then(async(response) => {
+            
             const aeronaveId = response.data.AERONAVEID;
-            return Promise.all([
-                axios.get(`http://localhost:3000/aeronaves/${aeronaveId}`),
-                axios.get(`http://localhost:3000/assentos/aeronave/${aeronaveId}`)
-            ]);
+            const assentos = await axios.get(`${baseUrl}/aeronave/${aeronaveId}`);
+            console.log(assentos.data);
+            return axios.get(`${baseUrl}/aeronaves/${aeronaveId}`);
         })
-        .then(([responseAeronave, responseAssentos]) => {
-            const { QtdLinhas, QtdColunas } = responseAeronave.data;
-            const mapaAssentos = criarMapaAssentos(responseAssentos.data);
-            gerarMapaAssentos(QtdLinhas, QtdColunas, mapaAssentos);
-            return axios.get(`http://localhost:3000/voos/${vooId}/assentosReservados`);
+        .then((response) => {
+            const { QTDLINHAS, QTDCOLUNAS } = response.data;
+            console.log(QTDLINHAS, QTDCOLUNAS);
+            gerarMapaAssentos(QTDLINHAS, QTDCOLUNAS);
+            return axios.get(`${baseUrl}/voos/${vooId}/assentosReservados`);
         })
         .then(response => {
+            console.log(response.data);
             marcarAssentosReservados(response.data);
         })
         .catch(error => console.error('Erro ao carregar assentos:', error));
 }
 
-function criarMapaAssentos(assentos) {
-    const mapa = {};
-    assentos.forEach(assento => {
-        mapa[assento.CodigoAssento] = assento.AssentoID;
-    });
-    return mapa;
-}
-
-function gerarMapaAssentos(qtdLinhas, qtdColunas, mapaAssentos) {
+function gerarMapaAssentos(qtdLinhas, qtdColunas) {
     const assentosContainer = document.getElementById('assentos-container');
-    assentosContainer.innerHTML = '';
-
+    assentosContainer.innerHTML = ''; // Limpa o container para novos assentos
     for (let linha = 1; linha <= qtdLinhas; linha++) {
         const linhaAssentos = document.createElement('div');
         linhaAssentos.className = 'linha-assentos';
 
         for (let coluna = 1; coluna <= qtdColunas; coluna++) {
-            const codigoAssento = String.fromCharCode(64 + linha) + coluna;
             const assento = document.createElement('div');
             assento.className = 'assento';
-            assento.dataset.assento = codigoAssento;
-            assento.dataset.assentoId = mapaAssentos[codigoAssento];
+            
+            assento.dataset.assento =  String.fromCharCode(64 + linha) + coluna; // Ex: A1, B2, etc.
+
             assento.addEventListener('click', selecionarAssento);
+
             linhaAssentos.appendChild(assento);
         }
 
         assentosContainer.appendChild(linhaAssentos);
     }
 }
-
 
 
 function marcarAssentosReservados(assentosReservados) {
@@ -93,10 +86,11 @@ function processarCompra() {
     const email = document.getElementById('email').value;
     const vooId = new URLSearchParams(window.location.search).get('vooId');
     const assentosSelecionados = document.querySelectorAll('.assento.selecionado');
-
+    console.log(assentosSelecionados.keys);
+    
     // Converter NodeList para array de códigos de assento
     const assentos = Array.from(assentosSelecionados).map(assento => assento.dataset.assento);
-    
+    console.log(assentos);
     // Primeiro, criar ou obter o ClienteID
     axios.post('http://localhost:3000/clientes', { nome: nomeCompleto, email: email })
         .then(responseCliente => {
@@ -106,12 +100,12 @@ function processarCompra() {
 
             // Agora, criar a reserva com os assentos selecionados
             return axios.post('http://localhost:3000/reservas', {
-                VooID: vooId,
-                ClienteID: ClienteID,
-                Assentos: assentos
+                VooID: Number(vooId),
+                ClienteID: Number(ClienteID),
+                AssentosID: assentos
             });
         })
-        .then(responseReserva => {
+        .then(() => {
             alert('Sua passagem aérea foi emitida e enviada para seu endereço de email.');
             window.location.href = '/algum-caminho-para-confirmacao';
         })

@@ -33,9 +33,9 @@ async function createReserva(req, res) {
 
         // Verificar se os assentos estão disponíveis
         const assentosIndisponiveis = [];
-        for (const AssentoID of Assentos) {
-            const checkSql = `SELECT 1 FROM Reservas WHERE AssentoID = :AssentoID AND VooID = :VooID`;
-            const result = await connection.execute(checkSql, [AssentoID, VooID], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+        for (const AssentoID of AssentosID) {
+            const checkSql = `SELECT ReservaID FROM Reservas WHERE AssentoID = :AssentoID AND VooID = :VooID`;
+            const result = await connection.execute(checkSql, [AssentoID, VooID]/*,  { outFormat: oracledb.OUT_FORMAT_OBJECT } */);
             if (result.rows.length > 0) {
                 assentosIndisponiveis.push(AssentoID);
             }
@@ -48,16 +48,18 @@ async function createReserva(req, res) {
         }
 
         // Iniciar uma transação
-        await connection.execute(`BEGIN`);
+       // await connection.execute(`BEGIN`);
 
         // Inserir reserva para cada assento
         const sql = `INSERT INTO Reservas (VooID, ClienteID, AssentoID) VALUES (:VooID, :ClienteID, :AssentoID)`;
-        for (const AssentoID of Assentos) {
-            await connection.execute(sql, [VooID, ClienteID, AssentoID], { autoCommit: false });
+        console.log(sql)
+        for (const AssentoID of AssentosID) {
+            await connection.execute(sql, [VooID, ClienteID, AssentoID]/* , { autoCommit: false } */);
         }
 
         // Finalizar a transação
-        await connection.execute(`COMMIT`);
+        await connection.commit();
+        //await connection.execute(`COMMIT`);
 
         res.status(201).json({ message: 'Reserva criada com sucesso' });
     } catch (error) {
