@@ -1,3 +1,5 @@
+let valorAssento = 0;
+
 document.addEventListener('DOMContentLoaded', function () {
     const queryParams = new URLSearchParams(window.location.search);
     const vooId = queryParams.get('vooId');
@@ -13,7 +15,9 @@ function carregarAssentos(vooId) {
     axios.get(`${baseUrl}/voos/${vooId}`)
         .then(async(response) => {
             const aeronaveId = response.data.AERONAVEID;
-            console.log(vooId)
+            valorAssento = response.data.VALORASSENTO;
+
+            console.log('response',response)
 
             const [assentosResponse, aeronaveResponse, assentosReservadosResponse] = await Promise.all([
                 axios.get(`${baseUrl}/assentos/aeronave/${aeronaveId}`),
@@ -83,6 +87,7 @@ function selecionarAssento(event) {
     if (!assento.classList.contains('reservado')) {
         assento.classList.toggle('selecionado');
     }
+    atualizarTotalCompra();
 }
 
 
@@ -93,6 +98,12 @@ function configurarFormularioPagamento() {
         // ... (lógica para processar informações de pagamento)
         processarCompra();
     });
+}
+
+function atualizarTotalCompra() {
+    const assentosSelecionados = document.querySelectorAll('.assento.selecionado').length;
+    const totalCompra = assentosSelecionados * valorAssento;
+    document.getElementById('total-compra').textContent = `Total: R$ ${totalCompra.toFixed(2)}`;
 }
 
 function processarCompra() {

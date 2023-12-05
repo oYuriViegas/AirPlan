@@ -1,39 +1,34 @@
-/* Estilos gerais */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
 }
 
 header {
-    background: #333;
-    color: #fff;
-    padding: 1rem 0;
+    background-color: #007bff;
+    color: white;
     text-align: center;
+    padding: 1em 0;
 }
 
 main {
     padding: 20px;
 }
 
-h1, h2 {
-    margin: 0 0 10px 0;
+section {
+    margin-bottom: 60px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
 }
 
-/* Estilo do formulário de busca */
-#form-busca-voo {
-    background: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+h1, h2 {
+    margin: 0 0 20px 0;
 }
 
 .input-group {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .input-group label {
@@ -41,64 +36,33 @@ h1, h2 {
     margin-bottom: 5px;
 }
 
-.input-group select, 
-.input-group input[type="text"],
-.input-group input[type="datetime-local"],
-.input-group input[type="number"] {
+.input-group input, .input-group select {
     width: 100%;
     padding: 10px;
-    border-radius: 4px;
     border: 1px solid #ddd;
-}
-
-.input-group button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background: #5cb85c;
-    color: white;
-    border: none;
     border-radius: 4px;
-    cursor: pointer;
 }
 
-.input-group button:hover {
-    background: #4cae4c;
-}
-
-/* Estilo da tabela de voos */
-#tabela-voos {
+table {
     width: 100%;
     border-collapse: collapse;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
-#tabela-voos thead {
-    background: #333;
-    color: #fff;
-}
-
-#tabela-voos th,
-#tabela-voos td {
-    text-align: left;
-    padding: 10px;
+table, th, td {
     border: 1px solid #ddd;
 }
 
-#tabela-voos tr:nth-child(even) {
-    background: #f4f4f4;
+th, td {
+    padding: 10px;
+    text-align: left;
 }
 
-/* Estilos para o rodapé */
-footer {
-    text-align: center;
-    padding: 20px 0;
-    background: #333;
-    color: #fff;
+th {
+    background-color: #f0f0f0;
 }
 
 /* Estilos para o mapa de assentos */
-
 .assentos-container {
     display: flex;
     flex-direction: column;
@@ -130,10 +94,39 @@ footer {
 }
 
 .assento.selecionado {
-    background-color: #4caf50; /* Cor verde para assentos selecionados */
+    background-color: #4caf50;
 }
 
 .assento.reservado {
-    background-color: #f44336; /* Cor vermelha para assentos reservados */
+    background-color: #f44336;
     cursor: not-allowed;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #ddd;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+#total-compra {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
