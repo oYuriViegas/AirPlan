@@ -125,9 +125,33 @@ async function getAssentosByAeronaveId(req, res) {
     }
 }
 
+async function getAssentosReservadosPorVoo(req, res) {
+    let connection;
+    try {
+        connection = await db.openConnection();
+        const vooId = req.params.vooId;
+        const sql = `
+            SELECT a.AssentoID, a.CodigoAssento
+            FROM Assentos a
+            JOIN Reservas r ON a.AssentoID = r.AssentoID
+            WHERE r.VooID = :vooId
+        `;
+        const result = await connection.execute(sql, [vooId], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Erro ao buscar assentos reservados para o voo:', error);
+        res.status(500).send('Erro ao buscar assentos reservados para o voo');
+    } finally {
+        if (connection) {
+            await db.closeConnection(connection);
+        }
+    }
+}
+
 module.exports = {
     getAssentosDisponiveis,
     getAssentoId,
     getAssentosByAeronaveId,
-    reservarAssento
+    reservarAssento,
+    getAssentosReservadosPorVoo
 };

@@ -7,61 +7,75 @@ document.addEventListener('DOMContentLoaded', function () {
     configurarFormularioPagamento();
 });
 
- function carregarAssentos(vooId) {
+function carregarAssentos(vooId) {
     const baseUrl = "http://localhost:3000";
+
     axios.get(`${baseUrl}/voos/${vooId}`)
         .then(async(response) => {
-            
             const aeronaveId = response.data.AERONAVEID;
-            const assentos = await axios.get(`${baseUrl}/assentos/aeronave/${aeronaveId}`);
-            console.log(assentos.data);
-            return axios.get(`${baseUrl}/aeronaves/${aeronaveId}`);
-        })
-        .then((response) => {
-            const { QTDLINHAS, QTDCOLUNAS } = response.data;
-            console.log(QTDLINHAS, QTDCOLUNAS);
-            gerarMapaAssentos(QTDLINHAS, QTDCOLUNAS);
-            return axios.get(`${baseUrl}/voos/${vooId}/assentosReservados`);
-        })
-        .then(response => {
-            console.log(response.data);
-            marcarAssentosReservados(response.data);
+            console.log(vooId)
+
+            const [assentosResponse, aeronaveResponse, assentosReservadosResponse] = await Promise.all([
+                axios.get(`${baseUrl}/assentos/aeronave/${aeronaveId}`),
+                axios.get(`${baseUrl}/aeronaves/${aeronaveId}`),
+                axios.get(`${baseUrl}/assentos/aeronave/${vooId}/assentosReservados`)
+            ]);
+
+            const { QTDLINHAS, QTDCOLUNAS } = aeronaveResponse.data;
+            gerarMapaAssentos(QTDLINHAS, QTDCOLUNAS, assentosResponse.data);
+            marcarAssentosReservados(assentosReservadosResponse.data);
+            console.log(assentosReservadosResponse)
         })
         .catch(error => console.error('Erro ao carregar assentos:', error));
 }
 
-function gerarMapaAssentos(qtdLinhas, qtdColunas) {
+
+function gerarMapaAssentos(qtdLinhas, qtdColunas, assentos) {
+    console.log("Quantidade de Linhas:", qtdLinhas, "Quantidade de Colunas:", qtdColunas);
+    console.log("Dados dos Assentos:", assentos);
+
     const assentosContainer = document.getElementById('assentos-container');
-    assentosContainer.innerHTML = ''; // Limpa o container para novos assentos
+    assentosContainer.innerHTML = '';
+
     for (let linha = 1; linha <= qtdLinhas; linha++) {
         const linhaAssentos = document.createElement('div');
         linhaAssentos.className = 'linha-assentos';
 
         for (let coluna = 1; coluna <= qtdColunas; coluna++) {
-            const assento = document.createElement('div');
-            assento.className = 'assento';
-            
-            assento.dataset.assento =  String.fromCharCode(64 + linha) + coluna; // Ex: A1, B2, etc.
+            const codigoAssento = String.fromCharCode(64 + linha) + coluna;
+            const assentoData = assentos.find(a => a.CODIGOASSENTO === codigoAssento);
 
-            assento.addEventListener('click', selecionarAssento);
+            if (assentoData) {
+                const assento = document.createElement('div');
+                assento.className = 'assento';
+                assento.textContent = codigoAssento;
+                assento.dataset.assento = codigoAssento;
+                assento.dataset.assentoId = assentoData.ASSENTOID;
 
-            linhaAssentos.appendChild(assento);
+                assento.addEventListener('click', selecionarAssento);
+
+                linhaAssentos.appendChild(assento);
+            }
         }
 
-        assentosContainer.appendChild(linhaAssentos);
+        if (linhaAssentos.hasChildNodes()) {
+            assentosContainer.appendChild(linhaAssentos);
+        }
     }
 }
 
 
+
 function marcarAssentosReservados(assentosReservados) {
     assentosReservados.forEach(assentoReservado => {
-        const assentoElement = document.querySelector(`[data-assento="${assentoReservado.CodigoAssento}"]`);
+        const assentoElement = document.querySelector(`[data-assento="${assentoReservado.CODIGOASSENTO}"]`);
         if (assentoElement) {
             assentoElement.classList.add('reservado');
             assentoElement.removeEventListener('click', selecionarAssento);
         }
     });
 }
+
 
 
 function selecionarAssento(event) {
@@ -95,8 +109,8 @@ function processarCompra() {
     axios.post('http://localhost:3000/clientes', { nome: nomeCompleto, email: email })
         .then(responseCliente => {
             const ClienteID = responseCliente.data.ClienteID;
-            console.log(responseCliente);
-            console.log(vooId, ClienteID, assentos);
+            console.log('responseCliente.data',responseCliente.data);
+            console.log('vooId, ClienteID, assentos',vooId, ClienteID, assentos);
 
             // Agora, criar a reserva com os assentos selecionados
             return axios.post('http://localhost:3000/reservas', {
