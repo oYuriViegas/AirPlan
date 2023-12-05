@@ -100,32 +100,32 @@ function processarCompra() {
     const email = document.getElementById('email').value;
     const vooId = new URLSearchParams(window.location.search).get('vooId');
     const assentosSelecionados = document.querySelectorAll('.assento.selecionado');
-    console.log(assentosSelecionados.keys);
-    
-    // Converter NodeList para array de códigos de assento
-    const assentos = Array.from(assentosSelecionados).map(assento => assento.dataset.assento);
-    console.log(assentos);
-    // Primeiro, criar ou obter o ClienteID
+
+    // Converter NodeList para array de IDs de assento
+    const assentosIds = Array.from(assentosSelecionados).map(assento => Number(assento.dataset.assentoId));
+
     axios.post('http://localhost:3000/clientes', { nome: nomeCompleto, email: email })
         .then(responseCliente => {
-            const ClienteID = responseCliente.data.ClienteID;
-            console.log('responseCliente.data',responseCliente.data);
-            console.log('vooId, ClienteID, assentos',vooId, ClienteID, assentos);
+            const ClienteID = responseCliente.data.CLIENTEID;
 
-            // Agora, criar a reserva com os assentos selecionados
-            return axios.post('http://localhost:3000/reservas', {
-                VooID: Number(vooId),
-                ClienteID: Number(ClienteID),
-                AssentosID: assentos
+            // Fazer um POST para cada assento selecionado
+            const reservasPromessas = assentosIds.map(AssentoID => {
+                return axios.post('http://localhost:3000/reservas', {
+                    VooID: Number(vooId),
+                    ClienteID: ClienteID,
+                    AssentoID: AssentoID
+                });
             });
+
+            // Executar todas as promessas
+            return Promise.all(reservasPromessas);
         })
         .then(() => {
             alert('Sua passagem aérea foi emitida e enviada para seu endereço de email.');
-            window.location.href = '/algum-caminho-para-confirmacao';
+            window.location.href = '/frontend/index.html';
         })
         .catch(error => {
             alert('Houve um erro ao processar sua compra. Por favor, tente novamente.');
             console.error('Erro ao processar compra:', error);
         });
 }
-
