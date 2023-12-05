@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(async(response) => {
             
             const aeronaveId = response.data.AERONAVEID;
-            const assentos = await axios.get(`${baseUrl}/aeronave/${aeronaveId}`);
+            const assentos = await axios.get(`${baseUrl}/assentos/aeronave/${aeronaveId}`);
             console.log(assentos.data);
             return axios.get(`${baseUrl}/aeronaves/${aeronaveId}`);
         })
