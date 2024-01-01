@@ -83,6 +83,13 @@ vooForm.addEventListener('submit', function (event) {
     }
 });
 
+function formatToISODate(dateTimeString) {
+    const localDate = new Date(dateTimeString);
+    const offset = localDate.getTimezoneOffset() * 60000;
+    const adjustedDate = new Date(localDate.getTime() - offset);
+    return adjustedDate.toISOString().slice(0, -1) + 'Z'; // Remove milliseconds
+}
+
 function formatDateTimeForInput(isoString) {
     const date = new Date(isoString);
     // Formata a data e hora para o formato que o datetime-local espera
@@ -124,6 +131,12 @@ function saveEdit(voo, row) {
         return;
     }
 
+    console.log(updatedDataHoraPartida, updatedDataHoraPartida.type)
+    // Converter para formato ISO
+    updatedDataHoraPartida = formatToISODate(updatedDataHoraPartida);
+    updatedDataHoraChegada = formatToISODate(updatedDataHoraChegada);
+
+    console.log(updatedDataHoraPartida)
     const vooData = {
         AeronaveID: updatedAeronaveId,
         TrechoID: updatedTrechoId,

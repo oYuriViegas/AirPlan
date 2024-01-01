@@ -117,8 +117,17 @@ function processarCompra() {
 
     axios.post('http://localhost:3000/clientes', { nome: nomeCompleto, email: email })
         .then(responseCliente => {
-            const ClienteID = responseCliente.data.CLIENTEID;
+            let ClienteID = responseCliente.data.CLIENTEID;
 
+            // Verifique se um ClienteID foi retornado
+            if (!ClienteID) {
+                alert('ClienteID não foi retornado do servidor. Criando novo usuário.');
+                return criarNovoCliente(nomeCompleto, email);
+            }
+
+            return ClienteID;
+        })
+        .then(ClienteID => {
             // Fazer um POST para cada assento selecionado
             const reservasPromessas = assentosIds.map(AssentoID => {
                 return axios.post('http://localhost:3000/reservas', {
@@ -138,5 +147,17 @@ function processarCompra() {
         .catch(error => {
             alert('Houve um erro ao processar sua compra. Por favor, tente novamente.');
             console.error('Erro ao processar compra:', error);
+        });
+}
+
+function criarNovoCliente(nome, email) {
+    // Implemente a lógica para criar um novo cliente
+    return axios.post('http://localhost:3000/clientes', { nome: nome, email: email })
+        .then(response => {
+            if (response.data && response.data.CLIENTEID) {
+                return response.data.CLIENTEID;
+            } else {
+                throw new Error('Falha ao criar novo cliente');
+            }
         });
 }
